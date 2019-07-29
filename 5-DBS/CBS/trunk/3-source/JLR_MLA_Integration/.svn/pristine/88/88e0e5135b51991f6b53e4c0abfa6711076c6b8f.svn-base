@@ -1,0 +1,74 @@
+:: NAME:           dbs_matlab.bat
+:: FUNCTION:       To generate dbs jenkins configuration
+:: PROJECT:        Daily Build System
+:: DEVELOPED BY :  Abhishek Srivastava
+
+:: DBS matlab code generator for JLR_MLA
+@echo off
+setlocal EnableDelayedExpansion
+
+:: Optional parameters 
+
+if not defined DEBUG_MODE       set DEBUG_MODE=OFF
+if not defined PATH_PROJECT     set PATH_PROJECT=%WORKSPACE%
+if not defined MODEL_PATH		set MODEL_PATH=%WORKSPACE%\models
+if not defined SYSTEM			set SYSTEM=A_Integration_Tester
+if not defined SUBSYSTEM		set SUBSYSTEM=PBC
+if not defined LOG_FILE_PATH	set LOG_FILE_PATH=%WORKSPACE%\log\dbs_matlab.log
+if not defined PATH_ARCH		set PATH_ARCH=%WORKSPACE%\..\..\..\archive
+if not defined PATH_TEMP        set PATH_TEMP=%WORKSPACE%\.dbs_matlab
+if not defined DBS_OUTPUT       set DBS_OUTPUT=%PATH_TEMP%\dbs_matlab.conf
+
+:: Additional report path
+if not defined PATH_REPORT		set PATH_REPORT=%WORKSPACE%\report\%DATE%\%BUILD_NUMBER%
+
+
+if %ROOT_BUILD_CAUSE%==TIMERTRIGGER (
+	set BUILD_TYPE=P
+) else (
+	set BUILD_TYPE=U
+)
+
+@echo %DEBUG_MODE%
+echo %BUILD_NUMBER%
+
+:: Initialize DBS
+set PREFIX_ATTACH=%VARIANT_CODE%_%SVN_REVISION%
+cd %WORKSPACE%
+python %WORKSPACE%\..\..\dbs.py init %PATH_TEMP%
+echo %BUILD_NUMBER%
+cd %WORKSPACE%
+
+if not exist "%PATH_REPORT%\" (
+	mkdir "%PATH_REPORT%\"
+)
+
+python matlabgen.py -m"%SYSTEM%" -p"%MODEL_PATH%" -l"%LOG_FILE_PATH%" -s"%SUBSYSTEM%" -f"%WORKSPACE%\..\..\resources\matlab_mail.recipients.xlsx" -r"%PATH_REPORT%\Matlab_BuildError.csv" -x"%PATH_REPORT%\Matlab_BuildSummary.xlsx" -o"%DBS_OUTPUT%" -b"%WORKSPACE%\..\..\resources\templates\mail.MATLAB.template.html"
+
+exit 0
+
+:HELP
+@echo off
+echo DBS integrated builder 
+echo.
+echo This script needs build-environment variables provided by DailyBuildSystem.
+echo Please check and inject these environment variables.
+echo.
+echo Required :
+echo   MODEL_PATH
+echo   SYSTEM TO BUILD
+echo   SUBSYSTEM TO BUILD
+echo   LOGFILE_PATH
+echo.
+echo Optional :
+echo   PATH_PROJECT  	(Default : %WORKSPACE%)
+echo   PATH_DBS         (Default : %WORKSPACE%\DailyBuildSystem)
+echo   PATH_BUILD       (Default : %WORKSPACE%\BuildScript)
+echo   PATH_ARCH        (Default : %WORKSPACE%\archive)
+echo   PATH_TEMP        (Default : %WORKSPACE%\.dbs)
+echo   DBS_OUTPUT       (Default : %WORKSPACE%\.dbs\dbs.conf)
+echo   DEBUG_MODE       (Default : OFF)
+exit 1
+
+
+

@@ -1,0 +1,358 @@
+*----------------------------------------------------------------------------
+*
+* File: qaw.options
+*
+* Created: 30-Jan-12
+*
+* Selectors: QAW,QAC,QACPP,ALL
+*
+* Updated:
+* 21-Aug-06 - -qo added
+* 30-Aug-06 - -kw added
+* 26-Feb-07 - -pp32bt, -rvrb added
+* 02-Nov-07 - -heap, -nodataflow, -prodoption, -warnpragma, -wp added
+* 25-Jul-08 - -copysource, -suppressioncopyarg, -suppressioncopycmd,
+*             -suppressiondiffarg, -suppressiondiffcmd, -sca, -scc,
+*             -sda, -sdc, -useop added
+* 19-Sep-08 - -sda, -sdc, -sdt removed
+* 24-Apr-09 - -copysource removed
+*             -ident added
+*             -origsuppressionfile removed
+*             -qacoption removed
+*             -sdt added
+*             -suppressionoutpath removed
+*             -suppressiondifftool added
+*             -suppressiondiffcmd removed
+*             -suppressiondiffarg removed
+*             -suppressiondescriptiontext removed
+*             -suppressioncopycmd removed
+*             -suppressioncopyarg removed
+*             -suppressioncategoryfilter removed
+*             -suppressioncategory removed
+*             -sourcepath added
+*             -scf, -scc, -sca, -sc removed
+*             -useop removed
+*             -updateerr added
+* 04-Feb-11 - -cmaf made !
+*             -cpph made !
+*             -createpph made !
+*             -crossmoduleanalysisfile made !
+*             -forceinclude made !
+*             -file made !
+*             -fi made !
+*             -i made !
+*             -luf made !
+*             -libraryusagefile made !
+*             -lf made !
+*             -layoutfile made !
+*             -nrf made !
+*             -nodataflow removed
+*             -nogen made !
+*             -ng made !
+*             -namerulefile made !
+*             -outputpath made !
+*             -op made !
+*             -prj made !
+*             -projectfile made !
+*             -quiet made !
+*             -q made !
+*             -systeminclude made !
+*             -sourcepath made !
+*             -sop made !
+*             -si made !
+*             -usrpath made !
+*             -up made !
+*             -via made !
+*             -dfhdrf added
+*             -dfheaderfunction added
+*             -ed added
+*             -enabledatadflow added
+*             -eimi added
+*             -eiu added
+*             -enumisminimalint added
+*             -enumisunsigned added
+*
+*----------------------------------------------------------------------------
+
+* This file lists all allowable options.  If an option is supplied that is
+* not in this list an error message will be returned saying that opt is
+* illegal.
+*
+* Order of options in this list is important.  The list must have the 
+* property that longer names are found before any name that is a
+* truncation of the name.
+*
+* The + or - prefix indicates whether the option is a simple option
+* like -met+|- ie it has no parameter that may be in the next
+* comamnd line argument, or options that do have an argument.
+* Options with a + prefix have parameters.
+* Options with a - prefix only have a +|- parameter.
+*
+* Note the following args are consumed within PARSE_CL, i.e. they
+* are not returned:
+*    -alias
+*    -cargs
+*    -sat
+*    -setargtranslations
+*    -targs
+*
+-audi
+-atncrb
+-atanpc
+-arithrsh
+-ar
+-alwaysusedirectinitializer
+-allowtmplargnullptrconv
+-allowtempnonconstrefbind
+-allowimplicitconvptrmbr
+-allowconstconvdeduction
++align
++alias
+-aicpm
++afe
+-accd
++a
+-bitsigned
+-bits
+-c++03auto
+-c++03decltype
++calling
++callpack
++canal
++cargs
+!cmaf
+-cma
++comment
++co
+!cpph
+!createpph
++crep
+!crossmoduleanalysisfile
+-duc99dilt
+-dpft
+-dontusec99decintlittypes
+-disp
+-delayparsefntemplates
++debug
++deb
+-dafe
++d
++extensions
++expandmultihomedmessages
+-expandfilenames
++exec
++ex
+-etxt
++errorinvalidcfgvalue
++errorinvalidcfgarg
++encoding
+-enabledataflow
++en
++emhm
++eicv
++eica
+-ehtml
+-ef
+-ed
++echo
++e
++fr
+-fpc
++format
++forgetall
++forget
+!forceinclude
+-foldplainchar
++filenamereplace
+!file
+!fi
++fdisp
++f
++glob
+-glog
+-hw
+-html
+-hmw
+-hm
+-hidemacrowarnings
+-hiddenwarnings
+-hiddenmessage
+-help
++heap
+-hdrsuppress
+-hdr
+-h
++it
+-introducefriendnames
++intrinsictype
++indentlevel
+!include
+!imacros
++il
+-ifn
++ident
+!i
++k+r
+-luhi
+!luf
++logmsgs
++logerrs
++liw
++list
+-line
+-lih
+!libraryusagefile
+!lf
+-layoutusehangingindent
++layoutindentwidth
+-layoutignoreheaders
+!layoutfile
+-l
++mrtnd
++mode
++mo
++mll
+-metrics
+-met
+-messagesonly
++maxrecursivetemplatenestingdepth
++maxlinelength
++maxerrors
++maxerr
++maxcount
++max
++maseq
+-m
+!nrf
+-nosort
++nomsg
+-nogen
++no
+-ng
+!namerulefile
++namelength
++na
++n
+-overwrite
+-over
+!outputpath
+!op
++only
+-onelineonly
+-one
++o
++paloption
++patchfile
+-pdspd
++pdsp
+-plog
++po
+-pp32bt
+-ppfilename
+-ppf
++pphversion
++pphv
++pph
+-pplist
+-ppl
+-ppmetrics
+-ppm
+-pponly
+-ppo
+-preproc32bittype
+!prj
++prodoption
+!projectfile
+-propagatetemplateparameters
+-ptp
+!quiet
++qo
++qacppoption
+!q
+-references
+-ref
++remark
++rem
+-rvaluerefbind
+-rvrb
+!systeminclude
++systemdefine
++suppresslvl
++suppressionfile
++suppressiondifftool
+-summary
+-summ
++su
++style
++sty
+-strictsignedness
+-strictrank
+-strict
+-str
+-stoponfail
+-stdisglobal
+-standard
+-st
+-ss
+-sr
++spragma
+!sourcepath
+!sop
+-slashwhite
+-sl
++skippragma
++size
+-sig
+!si
+-showalias
+-sfba
++sf
+-settings
++setargtranslation
+-set
+-searchdependentbaseclasses
++sdt
+-sdep
++sd
++sat
++saseq
+-sapf
+-sa
++s
+-tsumm
+-trace
+-total
++threshold
++thresh
+-textonly
+-text
+-targs
++tabstop
+-tablesummary
++tab
++t
+!usrpath
++usrfile
++usr
+-userealthrowntypes
+-urtt
++updateerr
+!up
+-unsignedchar
++undef
+-u
+-version
+-ver
+!via
+-view
++warncall
++warnkeyword
++warnpragma
++wc
++wk
++wp
+!wqp_output_dir
+-xcase
+-xc
++xnamelength
++xn

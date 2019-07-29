@@ -1,0 +1,6 @@
+1   "Basic operation warning"             <NO_FAIL>   <DIAGNOSE>
+2   "Information warning"                 <NO_FAIL>   <DIAGNOSE>
+10  "Failed: Configuration"               <FAIL>      <NO_DIAGNOSE>
+11  "Failed: Licensing"                   <FAIL>      <NO_DIAGNOSE>
+18  "Failed: Tool"                        <FAIL>      <NO_DIAGNOSE>
+19  "Failed: System failure"              <FAIL>      <NO_DIAGNOSE>

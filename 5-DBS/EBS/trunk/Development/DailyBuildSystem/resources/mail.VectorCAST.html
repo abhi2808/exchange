@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>
+        DailyBuildSystem VectorCAST summary report
+    </title>
+    <style type="text/css">
+	body {
+		font-size:10.0pt;
+		font-family:"맑은 고딕", arial;
+	}
+	
+	.fail {
+		color:red;
+	}
+	
+	.success {
+		color: blue;
+	}
+		
+	.dbs_table {
+		border-collapse: collapse;
+		color: #353535;
+	}
+	.dbs_table th, 
+	.dbs_table td {
+		border: 1px solid #e1edff;
+		padding: 7px 17px;
+	}
+	
+	/* Table Header */
+	.dbs_table thead th {
+		background-color: #508abb;
+		color: #FFFFFF;
+		border-color: #6ea1cc !important;
+	}
+	
+	/* Table Body */
+	.dbs_table tbody tr:nth-child(odd) td {
+		background-color: #f4fbff;
+	}
+	
+	/* Font color */
+	.pass  {
+		color:green
+	}
+	.fail {
+		color:red
+	}
+    </style>
+</head>
+<body>
+<H2>
+%if args.__contains__("itr") and args.__contains__("metrics"):
+	VectorCAST Integration / Unit test summary report
+%elif args.__contains__("itr"):
+	VectorCAST Integration test summary report
+%else:
+	VectorCAST Unit test summary report
+%endif
+</h2>
+<!-- Common Section Start -->
+<table class="dbs_table">
+    <thead>
+		<tr>
+			<th colspan=2>Target Information</th>
+		</tr>
+    </thead>
+    <tbody>
+		<tr>
+			<td>Date</td>
+			<td>${args["date"]}</td>
+		</tr>
+		<tr>
+			<td>Time</td>
+			<td>${args["time"]}</td>
+		</tr>
+		%if args.__contains__("jenkins"):
+		%if args["jenkins"].__contains__("SVN_URL"):
+		<tr>
+			<td>SVN URL</td>
+			<td>${args["jenkins"]["SVN_URL"]}</td>
+		</tr>
+		%endif
+		%if args["jenkins"].__contains__("SVN_REVISION"):
+		<tr>
+			<td>SVN rev.</td>
+			<td>${args["jenkins"]["SVN_REVISION"]}</td>
+		</tr>
+		%endif
+		%endif
+		%if args.__contains__("extras"):
+		<tr>
+			<td>Car Maker</td>
+			<td>${args["extras"][0]}</td>
+		</tr>
+		<tr>
+			<td>Car Name</td>
+			<td>${args["extras"][1]}</td>
+		</tr>
+		<tr>
+			<td>Variant</td>
+			<td>${args["extras"][4]}</td>
+		</tr>
+		%endif
+	</tbody>
+</table>
+<!-- Common Section Finish -->
+
+<!-- VectorCAST - Overall Section Start -->
+<h3>Overall result</h3>
+<table class="dbs_table">
+	<thead>
+		<tr>
+			<th>Category</th>
+			<th>Result</th>
+		</tr>
+	</thead>
+	<tbody>
+		%for category in args["overall"]:
+		<tr>
+			<td>${category}</td>
+			<td class='
+			%if args["overall"][category]["pass"] is not None:
+				%if args["overall"][category]["pass"]:
+					pass
+				%else:
+					fail
+				%endif
+			%endif
+			'>${args["overall"][category]['value']}</td>
+		</tr>
+		%endfor
+	</tbody>
+</table>
+<!-- VectorCAST - Overall Section Finish -->
+
+<!-- VectorCAST - Integration Test Result Section Start -->
+%if args.__contains__("itr"):
+<h3>Summary of Integration test result</h3>
+<table class="dbs_table">
+	<thead>
+		<tr>
+			<th>Environment</th>
+			<th>Unit</th>
+			%for category in args["itr"]["header"]:
+			<th>${category}</th>
+			%endfor
+		</tr>
+	</thead>
+	<tbody>
+		%for environment in args["itr"]["values"]:
+		%for unit in args["itr"]["values"][environment]:
+		<tr>
+			%if loop.first:
+			<td rowspan=${len(args["metrics"]["values"][environment])}>${environment}</td>
+			%endif
+			<td>${unit}</td>
+			%for value in args["itr"]["values"][environment][unit]:
+			<td class='
+			%if value is not None and value["pass"] is not None:
+				%if value["pass"]:
+					pass
+				%else:
+					fail
+				%endif
+			%endif
+			'>
+			%if value is not None:
+			${value["value"]}
+			%endif
+			</td>
+			%endfor
+		</tr>
+		%endfor
+		%endfor
+	</tbody>
+</table>
+%endif
+<!-- VectorCAST - Integration Test Result Section Finish -->
+
+<!-- VectorCAST - Unit Test Result Section Start -->
+%if args.__contains__("metrics"):
+<h3>Summary of Unit test result</h3>
+<table class="dbs_table">
+	<thead>
+		<tr>
+			<th>Environment</th>
+			<th>Unit</th>
+			%for category in args["metrics"]["header"]:
+			<th>${category}</th>
+			%endfor
+		</tr>
+	</thead>
+	<tbody>
+		%for environment in args["metrics"]["values"]:
+		%for unit in args["metrics"]["values"][environment]:
+		<tr>
+			%if loop.first:
+			<td rowspan=${len(args["metrics"]["values"][environment])}>${environment}</td>
+			%endif
+			<td>${unit}</td>
+			%for value in args["metrics"]["values"][environment][unit]:
+			<td class='
+			%if value is not None and value["pass"] is not None:				
+				%if value["pass"]:
+					pass
+				%else:
+					fail
+				%endif
+			%endif
+			'>
+			%if value is not None:
+			${value["value"]}
+			%endif
+			</td>
+			%endfor
+		</tr>
+		%endfor
+		%endfor
+	</tbody>
+</table>
+%endif
+<!-- VectorCAST - Unit Test Result Section Finish -->
+
+</body>
+</html>

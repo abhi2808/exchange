@@ -1,0 +1,2208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+                      "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+  <HEAD>
+    <TITLE>QAW User Guide</TITLE>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+    <STYLE TYPE="text/css">
+      BODY { color: black; background: white }
+      PRE  { color: navy }
+      CODE { color: navy }
+      A    { color: blue }
+      H1   { font-size: 24pt; color: black }
+      H2   { font-size: 20pt; color: black }
+      H3   { font-size: 17pt; color: black }
+      H4   { font-size: 15pt; color: black }
+      H5   { font-size: 13pt; color: black }
+      H6   { font-size: 12pt; color: black }
+      .zH2 { font-size: 20pt; color: black; font-weight: bold }
+      .zH3 { font-size: 17pt; color: black; font-weight: bold }
+      .zH4 { font-size: 15pt; color: black; font-weight: bold }
+      .zH5 { font-size: 13pt; color: black; font-weight: bold }
+    </STYLE>
+  </HEAD>
+  <BODY>
+
+<HR>
+<H1>QAW User Guide</H1>
+
+<HR>
+<H2>Overview</H2>
+
+<P>The QAW program is used as a command line interface to PRQA tools
+except for the Windows and Unix GUIs, and Integrations.
+Note that simple command line use of QAC and QACPP only performs
+the primary (major) phase of analysis, Secondary-Analysis is
+not invoked, whereas QAW will invoke Secondary-Analysis if it is
+specified.  Other capabilities of QAW include analysing project
+files directly and the ability to handle many files and projects
+on the same command line.
+
+<P>QAW can be used to analyse with QAC or QACPP, the choice is
+controlled by the 'qac' | 'qacpp' keyword following the qaw program
+name.  Throughout this guide 'qac' is used, when using QACPP
+substitute 'qacpp' throughout.
+
+<P>For example to analyse a QAC project and view the results, 
+use:
+
+<PRE>
+      qaw qac c_examples.prj -view
+</PRE>
+
+<P>To analyse a QACPP project and display the results as annotated
+source on standard output, use:
+
+<PRE>
+      qaw qacpp cpp_examples.prj -disp
+</PRE>
+
+<HR>
+<H2>Summary of QAW Options</H2>
+
+<UL>
+<TABLE WIDTH="90%">
+<TR VALIGN=TOP><TD WIDTH="12%"><B>Option</B></TD>
+<TD><B>Description</B></TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-afe option syntax">-afe</A></TD>
+<TD>Specify Analysis Filename Extensions</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-alias option syntax">-alias</TD>
+<TD>Specify 'environment variable' local to QAW options</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-canal option syntax">-canal</TD>
+<TD>Invoke Configured project wide Analysis</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-cargs option syntax">-cargs</TD>
+<TD>Specify start of compiler arguments section of command line, where
+compiler is specified - used within Makefile Integrations</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-crep option syntax">-crep</TD>
+<TD>Invoke Configured Report</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-dafe option syntax">-dafe</TD>
+<TD>Display Analysis Filename Errors</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-disp option syntax">-disp</TD>
+<TD>Request display of annotated source on analysing each file</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-ehtml option syntax">-ehtml</TD>
+<TD>Ensure .html output generated</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-etxt option syntax">-etxt</TD>
+<TD>Ensure .txt output generated</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-exec option syntax">-exec</TD>
+<TD>Specify Secondary-Analysis program</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-fdisp option syntax">-fdisp</TD>
+<TD>Request annotated source output to file on analysis of each file</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-glob option syntax">-glob</TD>
+<TD>Specify project wide analysis program and display program</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-glog option syntax">-glog</TD>
+<TD>Request logging of analysis progress to GUI window (tbd)</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-help option syntax">-help</TD>
+<TD>Request information on options</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-logerrs option syntax">-logerrs</TD>
+<TD>Specify output destinations for error output</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-logmsgs option syntax">-logmsgs</TD>
+<TD>Specify output destinations for message output</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-maseq option syntax">-maseq</TD>
+<TD>Specify a sequence of project wide analysis programs</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-mode option syntax">-mode</TD>
+<TD>Control which files are to be analysed</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-pdsp option syntax">-pdsp</TD>
+<TD>Request warning listing display on analysing each set of files</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-pdspd option syntax">-pdspd</TD>
+<TD>Request warning listing display on analysing each set of files.  Display with default browser.</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-plog option syntax">-plog</TD>
+<TD>Request logging of analysis progress to standard output</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-sapf option syntax">-sapf</TD>
+<TD>Request analysis parameters report (Show Analysis Parameters File)</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-saseq option syntax">-saseq</TD>
+<TD>Specify a sequence of secondary analysis programs</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-sat option syntax">-sat</TD>
+<TD>Set Argument Translation for use with -cargs</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-sfba option syntax">-sfba</TD>
+<TD>Suppress File Based Analysis - Suppress primary and secondary
+analysis, perform project wide analysis only</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-stoponfail option syntax">-stoponfail</TD>
+<TD>Terminate on encountering an analysis error</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-targs option syntax">-targs</TD>
+<TD>Specify start of compiler arguments section of command line, where
+no compiler is specified.  Used within Makefile Integrations</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-trace option syntax">-trace</TD>
+<TD>Request trace of QAW and any Secondary-Analysis programs that accept -trace parameter</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-version option syntax">-version</TD>
+<TD>Request version of QAW</TD>
+</TR><TR VALIGN=TOP><TD WIDTH="12%"><A HREF="#-view option syntax">-view</TD>
+<TD>Request message browsing on analysing each set of files</TD>
+</TR>
+</TABLE>
+</UL>
+
+
+<HR>
+<H2>QAW Features</H2>
+
+<P>QAW is intended to act as a wrapper for QAC and as such will
+handle all the options normally passed to QAC.  In fact it does pass
+many options to QAC without filtering them at all.  The extra features
+introduced by QAW are:
+
+<P><UL>
+<LI>To enable command line usage of QAC to invoke any number of
+Secondary-Analysis programs.</LI>
+
+<LI>To enable multiple files to be passed for analysis per invocation 
+- either by simply specifying a list of file names on the command
+line, possibly with wildcards, or by using the -list
+option, or both.</LI>
+
+<LI>To enable the user to directly analyse any number of entire
+projects or specific folders within projects simply by supplying 
+project file(s) on the command line, also possibly with wildcards for 
+file names.</LI>
+
+<LI>To enable embedding of environment variables in .prj files 
+and within personality settings.  QAW allows definition of 
+local aliases within these files.  QAW also supports the relative path
+and environment variable features of the Windows GUI.</LI>
+
+<LI>To allow project wide analysis to be invoked on completion of
+analysing all or part of a project or an explicitly supplied set of
+files, or both, and to allow viewing of the results.</LI>
+
+<LI>To provide the user with audit information detailing all settings
+used in the analysis of each file.</LI>
+
+<LI>To provide a simple mechanism for launching configured
+reports.</LI>
+
+<LI>To provide a simple mechanism for launching configured
+project-wide analysis.</LI>
+
+<LI>To provide a mechanism for launching analysis and compilation as
+needed by Makefile Integrations. This includes specification of how
+compiler arguments are translated to QAC/PP options.</LI>
+
+<LI>To display annotated source (errdsp) on completion of analysis of
+each file.</LI>
+
+<LI>To display the Warning Listing (prjdsp) on completion of analysis
+of a set of files.</LI>
+
+<LI>To invoke the Message Browser (viewer) on completion of analysing
+a set of files.</LI>
+
+<LI>To provide improved help on options.</LI>
+
+<LI>To allow the user to control (-mode option) the analysis of
+    <UL>
+    <LI>all files</LI>
+    <LI>only those files for which existing analysis results are out of
+    date</LI>
+    <LI>or to perform no Primary or Secondary-Analysis of the files
+    whatsoever and simply view the current results.</LI>
+    </UL>
+
+</UL>
+
+<HR>
+<H3>Passing Files on the Command-Line</H3>
+
+<P>The number of files that can be passed to QAW on the
+command line is only limited by the maximum length of a command line
+in the shell of the operating system being used. Limitations on the
+maximum length of the command line allowed by the shell can be
+overcome by specifying any number of -list options on the
+command line.  For example to analyse the following files (and not
+display analysis results) file1.c, file2.x, file3.c, all files listed
+in lof1 and lof2, use:
+
+
+<PRE>
+      qaw qac -via..\person\mcm.p_s file1.c file2.x -list lof1 -list lof2 file3.c
+</PRE>
+
+Syntax of the -list option is:
+
+<PRE>
+      -list &lt;full file name&gt;
+</PRE>
+
+<P>Wildcards may also be used for filenames e.g.
+
+<PRE>
+      qaw qac *.prj *.c
+</PRE>
+
+<P>QAW is sensitive to the extension of file names supplied, whether supplied on
+the command line, using -list, or within project files.  By default
+the following extensions are allowed, any other extension (except
+.prj) will result in the warning message "Ignoring unrecognised file ..."
+
+<PRE>
+      ".c.C.cc.CC.cpp.cxx.c++.h.H.hpp.hxx.h++.i.I.ipp.ixx.i++"
+</PRE>
+
+<P>If you wish to use files with other extensions you should use the
+-afe option, e.g.
+
+<PRE>
+      qaw qac -op . -afe "c75.C*" a.c75 b.C c.Cxx99
+</PRE>
+
+<P>- will allow analysis of files a.c75, b.C and c.Cxx99.
+
+<HR>
+<H3>Analysing Projects</H3>
+
+<P>To analyse an entire project simply include the project file name
+on the command line in the same way as specifying a simple file for
+analysis.  e.g.
+
+
+<PRE>
+      qaw qac mcm_examples.prj
+</PRE>
+
+QAW treats files with the .prj extension as project files.
+
+<P>To analyse an individual folder within a project folder use the following:
+
+<PRE>
+      qaw qac "mcm_examples.prj#Folder Name"
+</PRE>
+
+<P>or, to analyse 2 separate folers and display the results in the
+message browser:
+
+<PRE>
+      qaw qac mcm_examples.prj#folder1 mcm_examples.prj#folder2 -view
+</PRE>
+
+<P>or, to analyse an individual file within a project folder use the following:
+
+<PRE>
+      qaw qac "mcm_examples.prj#Folder Name:File Name" -view
+</PRE>
+
+<P>Note the ':' syntax which introduces the 'filename within folder',
+i.e. 'File Name' within folder 'Folder Name'.
+
+<P>Note that the full syntax for 'filename within folder'
+specification is:
+
+<PRE>
+      qaw qac &lt;project file&gt;#&lt;folder&gt;:&lt;filespec&gt;
+</PRE>
+
+<P>Here &lt;filespec&gt; is normally a simple (base) filename, however,
+if this is not sufficiently accurate to specify the required file,
+&lt;filespec&gt; can be given as an absolute (full) path.
+
+<P>To analyse a number of files, within a project folder, using a
+wildcard  specification use, for example, the following:
+
+<PRE>
+      qaw qac mcm_examples.prj#folder_name:rule_12*
+</PRE>
+
+<P>or, to analyse a set of files using the personality settings of a
+project folder use:
+
+<PRE>
+      qaw qac &lt;project file&gt;#&lt;folder&gt;#&lt;filespec&gt;
+</PRE>
+
+<P>e.g.
+
+<PRE>
+      qaw qac mcm*.prj#folder_1#*.c
+</PRE>
+
+<P>Note that here filespec specifies the list of file(s) to be analysed using the
+project personalities.  Here the file(s) specified by filespec are relative
+to the current working directory (i.e. pwd for Unix etc), and not
+relative to the folder directory, which is the case when using the ':'
+syntax.  That is, the filespec may be any files and can only specify
+files within the project if filespec explicitly gives the paths of file(s)
+within the project.
+
+<P>For example the following commands analyse the same files:
+
+<PRE>
+      qaw qac $MCM\mcm*.prj#folder_1#$MCM\src\*.c
+      qaw qac $MCM\mcm*.prj#folder_1:*.c
+</PRE>
+
+<P>When <B>analysing</B> projects QAW ignores all command line settings
+except the following:
+
+<UL>
+<LI>-afe</LI>
+<LI>-canal</LI>
+<LI>-crep</LI>
+<LI>-dafe</LI>
+<LI>-disp</LI>
+<LI>-ehtml</LI>
+<LI>-etxt</LI>
+<LI>-fdisp</LI>
+<LI>-glob</LI>
+<LI>-glog</LI>
+<LI>-logerrs</LI>
+<LI>-logmsgs</LI>
+<LI>-maseq</LI>
+<LI>-mode</LI>
+<LI>-pdsp</LI>
+<LI>-plog</LI>
+<LI>-sapf</LI>
+<LI>-sfba</LI>
+<LI>-stoponfail</LI>
+<LI>-trace</LI>
+<LI>-view</LI>
+</UL>
+
+<P>Project analysis results reflect the settings
+within the project itself unless these are overridden on the command line.
+For example, -exec specified on the command line
+affects individual and -list specified files, as well as
+any projects listed on the same command line.
+
+<P>When analysing and/or displaying project analysis output, all command line settings
+including the above 'QAW' settings plus all display settings within the project itself, are used.
+For example:
+
+<PRE>
+      qaw qac $MCM\mcm*.prj -html+ -hdr- -disp
+</PRE>
+
+
+<HR>
+<H3>Embedding Variables in Personality and Project Files</H3>
+
+<P>Unix style environment variable embedding may be used on Windows
+and Unix within project files, files that are included with -via, file
+names included by -list, and simple command line arguments.  For
+example consider the following QAC Windows project file:
+
+<PRE>
+      VersionTag45
+      StartProjectMarker
+      FolderName=global_checks
+      SourcePath=$QACPATH\mcm\projects\global_checks\src\
+      OutputPath=$QACPATH\mcm\projects\global_checks\output\
+      SubsPers=$QACPATH\mcm\projects\global_checks\person\mcm.p_s
+      AnalPers=$QACPATH\mcm\projects\global_checks\person\mcm.p_a
+      CompPers=$QACPATH\mcm\projects\global_checks\person\mcm.p_c
+      ${QACPATH}\mcm\projects\global_checks\src\file1.c
+      ${QACPATH}\mcm\projects\global_checks\src\file2.c
+      EndContainedFilesMarker
+</PRE>
+
+<P>When this project file is evaluated $QACPATH is replaced with the
+current environment setting of environment variable QACPATH.  Note
+that ${QACPATH} is also acceptable.
+
+<P>Environment variables can be used anywhere in the QAW input,
+i.e. within project files, within personality files, within list of
+files files and on the command line itself.
+
+<P>A further feature of QAW is locally declared
+variables, this is done using 
+the -alias option to define a variable.
+
+<P>Syntax is:
+<PRE>
+      -alias &lt;var name&gt;=&lt;value&gt;
+</PRE>
+
+<P>Note that -alias always takes exactly one parameter which should be
+quoted if it contains any space characters.  Quote characters can be
+embedded by escaping with \ (backslash).
+
+<P>A variable declared with -alias is dereferenced in the same way as
+an environment variable.  Hence a project file can have its own local
+values e.g. (n.b. this is a QAC Windows project file):
+
+<PRE>
+      VersionTag45
+      -alias PRJ_HOME=$QACPATH\mcm\projects\global_checks
+      -alias PRJ_PERSON=${PRJ_HOME}\person
+      StartProjectMarker
+      FolderName=global_checks
+      SourcePath=$PRJ_HOME\src\
+      OutputPath=$PRJ_HOME\output\
+      SubsPers=$PRJ_PERSON\mcm.p_s
+      AnalPers=$PRJ_PERSON\mcm.p_a
+      CompPers=$PRJ_PERSON\mcm.p_c
+      $PRJ_HOME\src\file1.c
+      $PRJ_HOME\src\file2.c
+      EndContainedFilesMarker
+</PRE>
+
+
+<HR>
+<H3>Windows GUI Relative Paths and Environment Variables</H3>
+
+<P>As well as allowing the Unix style environment variable embedding
+described above, QAW supports the Windows GUI method of defining
+Relative Paths and Environment Variables.  This is on Windows only (on
+Unix Windows style environment variables e.g. %QACBIN% are not allowed.)
+
+<P>On Windows, QAW will handle all projects created in the Windows
+GUI.  The follows rules apply:
+
+<P><UL>
+<LI>%EnvironmentVariable% is only allowed once per option, or -via file
+line, or project file line.</LI>
+
+<LI>%EnvironmentVariable% may only be embedded in options that have a
+path parameter.  e.g. it is not possible to use %EnvironmentVariable%
+in a -format string.</LI>
+
+<LI>Relative Path prefixing is not applied to options on the QAW
+command line.</LI>
+
+<LI>It is an error if a %EnvironmentVariable% is not defined in the
+current environment.</LI>
+
+<LI>It is an error if a path is not absolute after an embedded
+%EnvironmentVariable% is expanded.</LI>
+
+<LI>It is an error if a path is not a real path after an embedded
+%EnvironmentVariable% is expanded.</LI>
+
+<LI>It is an error if %SOURCEPATH% is found in a personality
+file.</LI>
+
+<LI>It is an error if %SOURCEPATH% replacement does not result in a
+real path.</LI>
+
+<LI>It is not possible to write a parameter which mixes a wildcard
+with an environment variable or relative path.</LI>
+</UL>
+
+<HR>
+<H3>Secondary-Analysis</H3>
+
+<P>QAW allows the standard QAC message personality based method of
+specifying Secondary-Analysis via -rem statements.  Extra flexibility is
+provided by allowing any number of message personality files to be 
+specified - each message personality file is allowed to provide at
+most one Secondary-Analysis specification.  An alternative method for
+specifying Secondary-Analysis, which has no limit on where it is used, or
+the number of times it is used, is the
+<A HREF="#-exec option syntax">-exec option</A>
+, for example:
+
+<PRE>
+      -exec "C:\Program Files\prqa\QAC-5.0-P3\mcm\bin\qacuser_mcm.exe##%F"
+</PRE>
+
+The <A HREF="#-saseq option syntax">-saseq option</A>
+also allows specification of Secondary-Analysis,
+the difference being that -saseq specifies a Secondary-Analyser 
+<B>sequence</B>, for example:
+
+<PRE>
+      -saseq "qacuser_mcm %F+#C:\QAC\ Files\misrauser_mcm %F+"
+</PRE>
+
+Note that -saseq merges the specification of the analyser program
+and its parameters.  It is important to note that in the <B>-exec</B> program
+specification, spaces in the program path are written without any 
+formatting.  In -saseq options spaces in the program path must be
+escaped with backslash, for example:
+
+<PRE>
+      "C:\Program Files\X"
+
+      is escaped as:
+
+      "C:\Program\ Files\X"
+</PRE>
+
+Note that -saseq is cumulative as is -exec, -rem, -glob and -maseq.
+Where these options occur they are always added
+to the currently specified Secondary-Analyser or Project-Wide_Analyser settings.
+
+<HR>
+<H3>Project Wide Analysis</H3>
+
+<P>QAW has the capability to run any number of project wide analysis
+programs which it does on completion of analysis of the supplied files
+or on the completion of analysis of each project - provided (for -mode all
+analysis only) there are no errors during analysis of the project or fileset.
+To do this the
+<A HREF="#-glob option syntax">-glob option</A> or the 
+<A HREF="#-maseq option syntax">-maseq option</A> is used 
+(-maseq allows specification of a project wide analyser
+<B>sequence</B>), for example:
+
+<PRE>
+      -glob "C:\Program Files\prqa\QAC-5.0\mcm\mcmprj#-list %L -html %R+ %P+#Iexplore"
+
+      -maseq "mcmprj -list %L -html %R+ %P+#pal %Q %L+ %P+"
+</PRE>
+
+Note that -maseq merges the specification of the analyser program
+and its parameters.  It is important to note that in the -glob program
+specification, spaces in the program path are written without any 
+formatting.  In -maseq options spaces in the program path must be
+escaped with backslash, for example:
+
+<PRE>
+      "C:\Program Files\X"
+
+      is escaped as:
+
+      "C:\Program\ Files\X"
+</PRE>
+
+<P>Note that <A HREF="#-canal option syntax">-canal option</A> and
+<A HREF="#-crep option syntax">-crep option</A> provide shortcut methods
+of invoking project wide analysis.
+
+
+<HR>
+<H3>Analysis with Dataflow</H3>
+
+<P>To analyse with the dataflow capability introduced in QAC-8.0, simply append tjhe -ed option to the command line.  e.g.
+
+<PRE>
+      qaw qac -op . my project.prj file.c -ed+ -view
+</PRE>
+
+<P>To ensure that dataflow is switched off do
+
+<PRE>
+      qaw qac -op . my project.prj file.c -ed- -view
+</PRE>
+
+
+<HR>
+<H3>Analysis control</H3>
+
+<P>QAW allows the user to control analysis of the supplied files or
+projects.  This is done with the -mode and -sfba options.  Syntax of -mode is:
+
+<PRE>
+      -mode analysis_mode
+</PRE>
+
+<P>Where analysis_mode can take one of the following 3 values
+
+<UL>
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH="20%">all</TD><TD>This is the default.  In this mode all files are analysed.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="20%">dep or depend</TD><TD>Analyse only those files for which
+the current results are or may be out of date.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="20%">none</TD><TD>Skip analysis of files and simply execute display
+options.</TD></TR>
+</TABLE>
+</UL>
+
+<P>Note that if project wide analysis is specified ( -canal, -crep, -glob or -maseq option ),
+then project wide analysis and display is always performed
+irrespective of the setting of -mode.  QAC analysis of
+individual files is governed by -mode.
+
+<P>If the "-mode depend" option is supplied QAW only analyses files
+for which the <U>analysis</U> options have changed (e.g. different -D
+settings, -I settings, -SI, -SD, -EN etc) or if any file contributing
+to the translation unit is newer than the existing .err file, or if
+any of the .err, .opt and .met files are missing, or if the Primary Analyser or
+any of the Secondary-Analyser programs have a different version number.  Should other 
+output files be required the analysis must be invoked with the "-mode all"
+option in order to guarantee the output files are up to date.  In
+other words "-mode depend" only guarantees .err, .met and .opt files
+are up to date.
+
+<P>Note that when using QAC-8.0 or later, the -O and -N options are
+treated as <U>analysis</U> options and hence will trigger
+'re-analysis' if -mode depend is used and the only change to the QAW
+settings is a modification of the -O and/or -N settings.
+
+
+
+<P>QAW uses the same algorithm for looking up header files as the
+parsers, this is based on -I, -SI specifications.
+
+<P>The -sfba option suppresses primary and secondary analysis, it is
+intended for project wide analysis usage in QAW.  For example, a
+number of files may be analysed with given personality settings, 
+normally the project wide analysis stage would be performed with the
+same settings.  By using a command like:
+
+<PRE>
+      qaw qac mcm.prj -maseq "pal %Q %P+ %L+" -sfba -view
+</PRE>
+
+<P>- the project wide analysis is performed without repeating the
+primary and secondary analysis of mcm.prj.
+
+<P>The project wide analysis could also be performed with different
+settings, e.g.
+
+<PRE>
+      qaw qac -list lof -via person -view
+      qaw qac -list lof -via other -maseq "pal %Q %P+ %L+" -sfba -view
+</PRE>
+
+<P>- will result in primary and secondary analysis being performed
+using 'person' and the project wide analysis performed using 'other',
+without repeating primary and secondary analysis of lof.
+
+<HR>
+<H3>Compiler Wrapper Usage</H3>
+
+<P>QAW can be used to perform both analysis and compilation
+functions, i.e. it can be used as a compiler wrapper for applications
+like Makefile Integrations.  When QAC is used as a
+compiler wrapper analysis is performed by QAC and
+compilation is performed by a conventional compiler.  In this mode the
+command line passed to the QAW wrapper is forwarded to the compiler
+in order to invoke compilation.
+
+<P>QAW supersedes the PRL wrapper.pl utility.
+
+<P>QAW is versatile enough to be used in both IDE integrations and
+makefile integrations.  Considering use of QAW as a wrapper in a simple makefile, the
+makefile used to compile a C "hello world" program might be:
+
+<PRE>
+      .c.o:
+              $(CC) -c $&lt;
+
+      hello_world: hello_world.o
+              $(CC) -o $@ $&lt;
+</PRE>
+
+<P>On Unix systems QAW can be used as a wrapper as:
+
+<PRE>
+      make "CC=qaw qac -sat I=-I -sat D=-D -cargs gcc"
+</PRE>
+
+<P>This CC definition causes the makefile to execute with a two step
+process of (QAC) analysis followed by compilation.
+
+<P>A typical QAW wrapper usage might be:
+
+<PRE>
+      qaw qac -via gcc3.2.3_compiler_person.p_c -cargs gcc -c -DWIN alg.c main.c
+</PRE>
+
+<P>QAW invokes QAC with the
+QAW options specified on the left of the -cargs marker token, 
+translated options after the -cargs marker, and
+files listed after -cargs.  QAW then invokes the compiler
+specified by the token after -cargs (gcc in this example) with
+the parameters that follow the compiler token.  Note that
+QAW options (including all QAC options) can be placed before the
+-cargs marker in the same way as when a simple QAW analysis is
+performed.  
+
+<P>For the above example, QAW execution steps are equivalent to:
+
+<P>QAC analysis step:
+<PRE>
+      qaw qac -via gcc3.2.3_compiler_person.p_c -DWIN alg.c main.c
+</PRE>
+<P>Where gcc3.2.3_compiler_person.p_c contains:
+<PRE>
+      -sat D=-D
+</PRE>
+
+<P>Compilation step:
+<PRE>
+      gcc -c -DWIN alg.c main.c
+</PRE>
+
+<P>Secondary-analysis is invoked in the normal way.  i.e. by providing a
+.p_s file with -rem statements detailing the secondary-analysis, or by
+providing QAW -exec or -saseq commands.
+
+<P>-stoponfail can be used to terminate QAW execution on a QAC
+analysis error.
+
+
+<HR>
+<H3>Output of Annotated Source</H3>
+
+<P>On completion of analysis of each file, both for individual files and
+files within projects, QAW will call errdsp to output the annotated
+source for that file to Standard Output if the <U>-disp</U> option is
+specified on the command line.
+
+<HR>
+<H3>Output of Warning Listing</H3>
+
+<P>On completion of analysis of the supplied files or on the
+completion of analysis of each project, QAW can invoke prjdsp for the
+file set.  To do this the -pdsp / -pdspd option is used, for example:
+
+<PRE>
+      -pdsp "C:\Program Files\Internet Explorer\IExplore"
+</PRE>
+
+<P>Here the syntax is:
+
+<PRE>
+      -pdsp &lt;renderer program&gt;
+</PRE>
+
+<P>Where <I>renderer program</I> is the program specification ([path]name) necessary to invoke an html
+browser like Netscape, IExplore, Chrome etc
+.
+
+<P>Alternatively you can use the -pdspd command which uses the Environment Variable 
+PRQA_DEFAULT_BROWSER as the renderer.  Hence syntax is simply:
+
+<PRE>
+      -pdspd
+</PRE>
+
+<HR>
+<H3>Output Using the Message Browser</H3>
+
+<P>On completion of analysis of the supplied files or on the
+completion of analysis of each project, QAW can invoke the Message
+Browser (viewer) for the file set.  To do this the -view option is
+used.  For example:
+
+<PRE>
+      qaw qac $MCM\mcm*.prj -view
+</PRE>
+
+
+<HR>
+<H3>Help</H3>
+
+<P>The -help option has 2 modes.  
+<OL>
+<LI>If the user invokes QAW with -help and no other options, then help for all options is displayed.</lI>
+<P>
+<LI>If the user supplies any additional options, help is displayed for those options only.   When looking 
+up the options to give help for, QAW returns help on all options that start with the supplied option 
+name.</LI>
+</OL>
+
+<P>For example:
+
+<PRE>
+      qaw qac -help -d
+</PRE>
+
+<P>Results in:
+
+<PRE>
+      -D ident -D ident=value
+      	  Define  macros for QA C in the  same way as  you  would
+      	  for your compiler.
+      
+      -DISP
+      	  Display annotated source on analysis.
+</PRE>
+
+
+<HR>
+<H3>Analysis Parameters Reporting</H3>
+
+<P>QAW always generates a .opt file alongside .err and .met on
+completion of analysis.  This file contains all parser parameter
+settings used for the analysis, i.e. the contents of settings.via as
+passed to QAC.
+
+
+<P>The purpose of .opt files is to capture analysis parameters in
+order to be able to retrieve those parameters allowing the user to
+justify analysis output with respect to the parameters used to perform
+the analysis.  .opt files are also used by the -mode option to
+determine whether significant analysis options have been changed when
+deciding if the file should be reanalysed.  .opt files can also be
+used directly as QAW input parameter files should the user want to repeat
+analysis with previous analysis parameters.
+
+
+<P>The QAW option -sapf (Show Analysis Parameters File) outputs the
+.opt file to standard output immediately after outputting the annotated
+source if -disp is specified, or otherwise immediately after
+completing analysis.
+
+<HR>
+<H2>QAW Usage</H2>
+
+<P>This section explains some of the detailed aspects of using QAW
+and gives examples of usage
+
+
+<HR>
+<H3>Use of Quoted Parameters</H3>
+
+<P>Any parameter to a QAW option that includes spaces must be quoted
+with double quotes.  Note that the <I>parameters</I> section of -exec and -glob 
+and the entire parameter of -maseq and -saseq are an exception to this. For example:
+
+<PRE>
+      -alias "ANSI=C:\Program Files\prqa\QAC-5.0\include\ansi"
+</PRE>
+or
+<PRE>
+      -alias"ANSI=C:\Program Files\prqa\QAC-5.0\include\ansi"
+</PRE>
+or
+<PRE>
+      "-aliasANSI=C:\Program Files\prqa\QAC-5.0\include\ansi"
+</PRE>
+
+<P>Other uses of quotes are possible but not recommended.  All spaces
+within quotes are significant, hence the following will probably be an
+error as the user would not intend the path to be prefixed with spaces:
+
+<PRE>
+      "-i   C:\Program Files\somedir"
+</PRE>
+
+<P>Spaces and quotes are treated in exactly the same way whether the
+parameter is within command line options, projects files, -list files
+or files included by -via.
+
+<P>For options: -exec, -glob, -maseq and -saseq; significant embedded space
+characters may be escaped (Unix style) with \ (backslash).  For example:
+
+<PRE>
+      -exec "\user dir\qacuser## -xxx \user\ dir\other\xxx -file %R"
+
+      -saseq "C:\dir\ name\prog %F+#C:\x\ y\w\ z\prog %F+"
+</PRE>
+
+<P>Note that file name entries in a list of files specified by the
+-list option should be quoted if the full file name has spaces.
+
+<HR>
+<H3>Analysis File Sets</H3>
+
+<P>QAW analyses files in sets.  Each project or folder
+of a project that is submitted is analysed as one set.  All other
+(non-project) files are analysed in one set.  That is, all file names
+specified on the command line, and all files specified by the -list
+option, are analysed as one set with all command line options applied.
+Files specified by a <I>project</I> based analysis are analysed as a
+distinct set (for each project spec on the command line). 
+So files are specified in one of the following ways, 
+
+
+<OL>
+<LI>outside of projects</LI>
+<LI>within projects</LI>
+<LI>using hybrid method</LI>
+</OL>
+
+<P>Files specified outside of projects are all the files specified on
+the command line that are not project files.  This set is always
+analysed after all projects have been analysed, i.e. last of all.
+
+<P>The hybrid method of specifying files uses the personalities of the
+supplied project file (a folder name is optional) to analyse specific
+files.  Files to be analysed are specified in one of two ways:
+<P>
+<OL>
+<LI>Relative to the source directory of the specified project folder,
+or</LI>
+<LI>Relative to the current working directory.</LI>
+</OL>
+
+<P>To specify files relative to a project folder, use syntax:
+
+<PRE>
+      qaw qac &lt;project file&gt;#&lt;folder&gt;:&lt;filespec&gt;
+</PRE>
+
+<P>To specify files relative to the current working directory use syntax:
+
+<PRE>
+      qaw qac &lt;project file&gt;#&lt;folder&gt;#&lt;filespec&gt;
+</PRE>
+
+<P><I>All options</I> on the command line are global to all analyses.
+Personality and other details held within a project are only applied
+to that project when it is analysed, along with all command line settings.
+
+<HR>
+<H3>Specification of OUTPUTPATH</H3>
+
+<P>The -outputpath (-op) option has unique behaviour among PRQA
+options.  For analysis of files on the command line, -op must be
+specified as follows:
+
+<P>-op should be specified before the first file on the command line,
+   if this is not the case a warning is issued and the QACOUTPATH
+   environment variable is used.
+
+<P>Trailing -op specification(s) are not allowed, this results in
+  termination.
+
+<HR>
+<H3>Examples of QAW Usage</H3>
+
+<P>QAW requires that the QAC  environment variables are set before it
+is run.  To do this QAC\bin\qacconf.bat may be used on Windows.  For
+Unix .profile etc should be sourced.
+
+<P>The simplest way to use QAW is as a direct replacement for QAC, e.g.
+
+<PRE>
+      qaw qac file.c
+</PRE>
+
+<P>To avoid the QACOUTPATH warning, specify the outputpath setting as
+the first option on the command line. e.g.
+
+<PRE>
+      qaw qac -op . file.c
+</PRE>
+
+<P>Several files can be specified, e.g.
+
+<PRE>
+      qaw qac -op . file1.c file2.c file3.c
+</PRE>
+
+<P>or
+
+<PRE>
+      qaw qac -op . *.c
+</PRE>
+
+<P>A list of files can also be specified, e.g.
+
+<PRE>
+      qaw qac -op . -list list_of_files
+</PRE>
+
+<P>Projects can be specified as follows.  Note that project files
+define outputpaths hence the -op option is not necessary here (and
+will be ignored even if it is set), e.g.
+
+<PRE>
+      qaw qac diff.prj example.prj
+</PRE>
+
+<P>Wildcards can be used, e.g.
+
+<PRE>
+      qaw qac *.prj
+</PRE>
+
+<P>Headings are inserted into -plog output if a folder/filespec is
+given in the project specification.  This is also true if the
+folder/filespec names are null, for example the following causes
+headings to be inserted into the output log,
+
+<PRE>
+      qaw qac *.prj#: -plog
+</PRE>
+
+<P>A folder within a project can be specified, e.g.
+
+<PRE>
+      qaw qac diff.prj#folder_name
+</PRE>
+
+<P>or
+
+<PRE>
+      qaw qac d*.prj#folder_name
+</PRE>
+
+<P>A combination can be analysed, e.g.
+
+<PRE>
+      qaw qac file1.c -list list_of_files diff.prj file2.c
+</PRE>
+
+<P>All parser options may also be specified on the command line in the
+same way as when using the parser as a standalone program.  To analyse
+a file with a personality file use the standard parser options e.g.
+
+<PRE>
+      qaw qac file1.c -via..\person\mcm.p_s -via ..\person\mcm.p_c
+</PRE>
+
+<P>or
+
+<PRE>
+      qaw qac file1.c -via..\person\mcm.*
+</PRE>
+
+<P>or use the equivalent form of personality specification via a project e.g.
+
+<PRE>
+      qaw qac ..\projects\mcm_examples\mcm_examples.prj##file1.c
+</PRE>
+
+<P>All the above examples invoke the parser which will write .err,
+.met and possibly other files.  For each file analysed QAW writes an
+&lt;output path&gt;/&lt;filename&gt;.opt file which contains the
+options used for the analysis and the time of the analysis for the
+file being analysed.
+
+<P>Further options may be specified on the command line to control
+Secondary-Analysis, Global Analysis and viewing of the results of analysis.  
+
+<P>To analyse files on the command line with Secondary-Analysis applied use the
+-exec option, e.g.
+
+<PRE>
+      qaw qac file1.c -list files.lst \
+         -exec "C:\Program Files\prqa\qac-5.0\mcm\bin\qacuser_mcm##%F"
+</PRE>
+
+<P>Or a Secondary-Analyser sequence as specified with -saseq, e.g.
+
+<PRE>
+      qaw qac file1.c -list files.lst \
+         -saseq "qacuser_mcm %F#misrauser %F"
+</PRE>
+
+<P>(Remember that % is interpreted by the DOS shell.  To pass % in a batch
+file it must be doubled up.)
+
+<P>-exec and -saseq can be used in any personality file (including project
+personality files) or on the command line to specify
+Secondary-Analysis for all files.
+Analysis of projects is governed by the personality files
+referenced in the project file (.prj file), these settings are further
+qualified by command line settings.
+
+<P>Each Secondary-Analysis program specified is run immediately after
+successful analysis of each file by the parser.  Global Analysis is
+invoked on completion of analysis of an entire file set.  Any number
+of Secondary-Analysis and Global Analysis programs can be run.
+
+<P>Primary and Secondary analysis can be suppressed with the -sfba or
+-mode none options.  -sfba will just suppress Primary and Secondary
+analysis, but will allow global analysis.  -mode none will suppress
+all analysis. 
+
+<P>Project wide analysis can be performed with different settings to
+those used for Primary and Secondary analysis, e.g.
+
+<PRE>
+      qaw qac -list lof -via person -view
+      qaw qac -list lof -via other -maseq "pal %Q %P+ %L+" -sfba -view
+</PRE>
+
+<P>- will result in primary and secondary analysis being performed
+using 'person' and the project wide analysis performed using 'other',
+without repeating primary and secondary analysis of lof.
+
+
+
+<P>As well as the -exec and -saseq options, the QAC message personality
+mechanism for specifying Secondary-Analysis can be employed.  That is, a
+mixture can be used. When using the message personality file to
+specify Secondary-Analysis only one Secondary-Analysis program can be specified
+per message personality file.  However any number of message
+personalities can be included in the command set.  Duplicate
+specification of a Secondary-Analysis program will result in duplicated
+Secondary-Analysis runs.
+
+
+<P>To analyse the same files with 2 Secondary-Analysis programs, and make
+use of the alias facility and the QACPATH environment variable, use
+
+<PRE>
+      qaw qac file1.c -list files.lst -alias"BIN=$QACPATH\mcm\bin" \
+           -exec $BIN\qacuser_mcm##%F -exec $BIN\misrauser##%F
+</PRE>
+
+<P>Or use -saseq, e.g.
+
+<PRE>
+      qaw qac file1.c -list files.lst -alias"BIN=$QACPATH\mcm\bin" \
+           -saseq "$BIN\qacuser_mcm %F#$BIN\misrauser %F"
+</PRE>
+
+<P>The \ (backslash) on the end of the first line is used here as a
+notation for continuation line.
+
+<P>To apply Global Analysis as well use
+
+<PRE>
+      qaw qac file1.c -list files.lst \
+           -alias"BIN=C:\project files\prqa\qac-5.0\mcm\bin"   \
+           -exec $BIN\qacuser_mcm##%F  -exec $BIN\misrauser##%F   \
+           -alias "IE=C:\Program Files\internet explorer\iexplore.exe"   \
+           -glob "$BIN\mcmprj#%L+ %R+ -html %P+#$IE"
+</PRE>
+
+<P>To view analysis results on standard output as analysis of each
+file completes use
+
+<PRE>
+      qaw qac file1.c -disp
+</PRE>
+
+<P>To view analysis results with the Message Browser on completion of
+analysis of each set of files use
+
+<PRE>
+      qaw qac file1.c file2.c diff.prj -view
+</PRE>
+
+<P>To view the warning listing output on completion of analysis of
+each set of files use
+
+<PRE>
+      qaw qac file1.c file2.c diff.prj -pdspd
+</PRE>
+
+<P>The -plog and -glog  options cause QAW to display a log of progress
+information, as the analysis proceeds, of each file as it is analysed.
+For example, to invoke the progress log and, on completion, the Message Browser, use
+
+<PRE>
+      qaw qac diff.prj -plog -view
+</PRE>
+
+<P>The -afe and -dafe options both relate to filename extensions.
+-afe can be used to specify the list of extensions to be allowed for
+analysis.  This can be made totally open by using a wildcard, e.g.
+
+<PRE>
+      qaw qac -op . -list lof -via ..\per.via -afe ".*" -plog
+</PRE>
+
+<P>- will result in all files in lof being analysed, irrespective of
+extension.
+
+<P>Normally QAW gives error messages if unrecognised file extensions
+are encountered.  These messages may be suppressed using -dafe-, e.g.
+
+<PRE>
+      qaw qac -op . -list lof -afe .c -plog -dafe-
+</PRE>
+
+<P>- will result in analysis of all files in lof with extension .c,
+any others to be silently ignored.
+
+
+<P>There are no restrictions on combining options, any combination may
+be used.  For overriding options, should an option be repeated with a
+different parameter, the last instance of the option in the command
+set will become the setting that is actually used.  For cumulative
+options, all settings are significant.
+
+
+<P>Options are evaluated from left to right along the command line.
+When specifying Analyser and Compiler
+Personalities on the command line, the Analyser Personality should
+appear before the Compiler Personality.  The implications of order are
+that files and projects will be analysed in the order they appear on the
+command line, and that secondary and project wide analysis will be
+executed in the order they are written, but note that all projects are
+analysed before any individual files.
+
+
+<HR>
+<H2>QAW Commands Reference</H2>
+
+<HR>
+<A NAME="-afe option syntax"></A>
+<P><B>-afe</B>
+<P>Syntax:
+<PRE>
+      -afe "&lt;period separated list of extensions&gt;"
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -afe ".c.h.c++.any*"
+</PRE>
+
+<P>Specifies the permissible set of file name extensions for analysis
+files.
+
+<P>Default is:
+<PRE>
+      ".c.C.cc.CC.cpp.cxx.c++.h.H.hpp.hxx.h++.i.I.ipp.ixx.i++"
+</PRE>
+
+<P>Extension specifications are case sensistive and may be wildcarded
+with '?' or '*'.
+
+<P>Extension specifications are separated by '.'
+
+<HR>
+<A NAME="-alias option syntax"></A>
+<P><B>-alias</B>
+<P>Syntax:
+<PRE>
+      -alias "&lt;lhs&gt;=&lt;rhs&gt;"
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -alias "ANSI=C:\Program Files\prqa\QAC-5.0\include\ansi"
+</PRE>
+
+<P>Where <I>lhs</I> is the string to be replaced at each instance of
+<I>$lhs</I> or <I>${lhs}</I> throughout the QAW option parameters
+set and file specifications set with the string represented by <I>rhs</I>.
+
+<P>QAW attempts to expand -alias definitions prior to expanding
+environment variable instances.
+
+<P>QAW will not modify any instance of $string or ${string} where no
+previous definition is found.
+
+<HR>
+<A NAME="-canal option syntax"></A>
+<P><B>-canal</B>
+<P>Syntax:
+<PRE>
+      -canal &lt;configured project wide analysis program name&gt;
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -canal $QACBIN\pal.exe 
+</PRE>
+
+<P>This is a shortcut for -glob where the program to be run is present
+in the Windows QAC.ini configuration file, or the Unix .xqacrc file.
+The above example is (normally) a shortcut for:
+
+<PRE>
+      -glob "$QACBIN\pal.exe#%Q %L+ %P+"
+</PRE>
+
+<HR>
+<A NAME="-cargs option syntax"></A>
+<P><B>-cargs</B>
+<P>Syntax:
+<PRE>
+      -cargs
+</PRE>
+
+<P>Example:
+
+<PRE>
+      qaw qac -via person.p_a -via person.p_c -cargs gcc -I\include_path -Ddef=val source.c
+</PRE>
+
+<P>This option (Compilation ARGumentS) is provided for make operations
+where compilation is required as well as analysis.  Should compilation
+not be required, i.e. all files in the Makefile are to be analysed
+only, then use option -targs instead. 
+
+<P>QAW uses the token immediately after the -cargs marker token as the
+program name of the compiler to be used.
+
+<P>QAW performs analysis of files on the right of the -cargs marker
+(except the first, i.e. compiler path, token) using QAW options
+specified on the left of the -cargs token and options on the right of
+the -cargs token that have -sat translations specified.
+
+<P>QAW compiles the files specified on the right of the
+compiler name token immediately after the -cargs token using the
+supplied (unchanged) options on the right of the compiler name token.
+
+<P>QAW translates any option tokens in the -cargs section and
+uses those options for the (primary and secondary) analysis parameters
+of the files in the -cargs section.  The translation of parameter
+tokens in the -cargs section is performed as defined by the -sat
+option(s).
+
+<P>QAW and -cargs is intended for use as a compiler wrapper when
+running Make files.  Example usage is:
+
+<PRE>
+      make "CC=qaw qac -via person.p_a -via person.p_c -cargs gcc"
+</PRE>
+
+<P>This has the effect of replacing all 'make' invoked Makefile CC
+compilation operations.  For example, applying the above CC definition to the
+following:
+
+<PRE>
+      CC -c -I \usr\include a.c b.c c.c
+</PRE>
+
+<P>Results in execution of:
+
+<PRE>
+      qaw qac -via person.p_a -via person.p_c a.c b.c c.c
+
+      gcc -c -I \usr\include a.c b.c c.c
+</PRE>
+
+<P>-cargs acts as a separator between QAW options and the 'make'
+provided parameters.  Tokens to the left of the -cargs token are
+passed directly to QAC.  Tokens to the right are passed to QAC if they
+are source files or if they are options for which -sat translation
+definitions are present.  The first parameter after -cargs is the name of the
+compiler to be run (this is the compiler that is being 'wrapped').
+All tokens to the right of -cargs are passed to the compiler.
+
+<P>The key to passing compiler *options* (like -I etc) to QAC, is the
+-sat option.  (-sat is -SetArgumentTranslation.)  -sat options must
+appear before the -cargs token on the command line (they really belong
+in the compiler personality).  Each -sat introduces an option
+translating specification that can be thought of as a simple edit
+replace option (s/old/new/).
+
+<P>Note that options (like -I say) after the -cargs marker are not applied
+to QAC by default.  If this is desired, specify the -sat definitions
+to perform the translations for the required options.  For example if
+-I can appear to the right of -cargs, and this option is to be passed
+to QAC, then a -sat translation for that -I should be
+specified.  Note, a -sat translation is required even if the
+translation does not change the option.  This is because -sat options
+do two things:
+
+
+<OL>
+<LI>They cause all instances of a given option on the right of -cargs
+to be passed to QAC.</LI>
+<P>
+<LI>They allow that option to be 'translated' into one or more QAC
+options which can differ textually.</LI>
+</OL>
+
+<P>An example CC definition using -sat is:
+
+<PRE>
+      "CC=qaw qac -via person.p_c -sat I=-i -satst=-ST -cargs gcc"
+</PRE>
+
+<HR>
+<A NAME="-crep option syntax"></A>
+<P><B>-crep</B>
+<P>Syntax:
+<PRE>
+      -crep &lt;configured report name&gt;
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -crep "Code Review"
+</PRE>
+
+<P>This is a shortcut for -glob where the report to be run is present
+in the Windows QAC.ini configuration file, or the Unix .xqacrc file.
+
+<HR>
+<A NAME="-dafe option syntax"></A>
+<P><B>-dafe</B>
+<P>Syntax:
+<PRE>
+      -dafe+|-
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -dafe-
+</PRE>
+
+<P>Instructs QAW to display unrecognised analysis file name warnings
+when set as -dafe+ or -dafe.
+
+<P>When set to -dafe-, this option results in unrecognised analysis
+file name warnings being suppressed.
+
+<HR>
+<A NAME="-disp option syntax"></A>
+<P><B>-disp</B>
+<P>Syntax:
+<PRE>
+      -disp
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -disp
+</PRE>
+
+<P>Instructs QAW to generate textual annotated source
+output for the currently analysed fileset.  This text is directed to
+stdout and/or stderr and/or file, depending on the setting of -logmsgs.
+
+<HR>
+<A NAME="-ehtml option syntax"></A>
+<P><B>-ehtml</B>
+<P>Syntax:
+<PRE>
+      -ehtml
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -ehtml
+</PRE>
+
+<P>Ensures that current .html files exist for each file in the fileset.
+This is done prior to executing options -glob, -pdsp, -pdspd, -view.
+
+<HR>
+<A NAME="-etxt option syntax"></A>
+<P><B>-etxt</B>
+<P>Syntax:
+<PRE>
+      -etxt
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -etxt
+</PRE>
+
+<P>Ensures that current .txt files exist for each file in the fileset.
+This is done prior to executing options -glob, -pdsp, -pdspd, -view.
+
+
+<HR>
+<A NAME="-exec option syntax"></A>
+<P><B>-exec</B>
+<P>Syntax:
+<PRE>
+      -exec <I>argument</I>
+</PRE>
+ 
+<P>Example:
+
+<PRE>
+      -exec "C:\Program Files\prqa\QAC-5.0-P3\mcm\bin\qacuser_mcm.exe##%F"
+</PRE>
+
+<P>Where <I>argument</I> = <I>Secondary-Analysis_executable_path</I> [ <I># script_path</I> [ <I># parameters</I> ] ]
+
+<P><I>argument</I> should be enclosed in quotes if there are any
+spaces in any of its 3 components.
+
+<P>Quotes should not be embedded in the -exec <I>parameters</I>.  Should paths
+exist in the <I>parameters</I> section with embedded spaces, escape each significant embedded 
+space with \ (backslash).
+
+<PRE>
+      -exec  "$MCM\bin\qacuser_mcm##-param some\ thing"
+</PRE>
+
+<P># acts as the delimiter of the 3 components.  Null parameters are
+specified by simply omitting the text of the parameter.
+
+<P><I>Secondary-Analysis_executable_path</I> is mandatory and should be absolute.
+
+<P><I>script_path</I> is optional, if present it specifies the script
+that is executed by the interpreter which is <I>Secondary-Analysis_executable_path</I>.
+
+<P><I>parameters</I> specifies the parameters to the program / script as a
+string with placeholders that are replaced as follows.  Note that the
+Unix version of QAC differs from the Windows version.
+
+<UL>
+<P>Windows GUI:
+<BR>%Q - QAC
+<BR>%P - Personality file (settings.via)
+<BR>%N - Naming rule configuration file
+<BR>%F - Name of source file being analysed
+<BR>%S - Location within the command string to insert the script_path component
+</UL>
+
+<P>"+" can follow %P, %N with following results:
+<P>
+<UL>
+<TABLE WIDTH="100%">
+<TR VALIGN=TOP><TD WIDTH="8%">%P+ </TD><TD>=> -via <I>settings.via</I></TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%N+ </TD><TD>=> -nrf &lt;naming rule file&gt;.html</TD></TR>
+</TABLE>
+</UL>
+
+<UL>
+<P>Unix GUI:
+<BR>%Q - QAC
+<BR>%M - met file for source file being analysed
+<BR>%E - err file for source file being analysed
+<BR>%P[ + ] - [ -via ] settings.via
+<BR>%F[ + ] - [ -op &lt;output path&gt;] Name of source file being analysed
+</UL>
+
+<HR>
+<A NAME="-fdisp option syntax"></A>
+<P><B>-fdisp</B>
+<P>Syntax:
+<PRE>
+      -fdisp &lt;file name&gt;
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -fdisp
+</PRE>
+
+<P>QAW generates textual annotated source output for the
+currently analysed fileset.  This text is written to <I>file name</I>
+regardless of the -logmsgs setting.  The -fdisp output file is emptied
+at the start of each QAW command, it is appended to for each
+file analysed during the remainder of that QAW command. 
+
+
+<HR>
+<A NAME="-glob option syntax"></A>
+<P><B>-glob</B>
+<P>Syntax:
+<PRE>
+      -glob <I>argument</I>
+</PRE>
+ 
+<P>Example:
+
+<PRE>
+      -glob "C:\Program Files\prqa\QAC-5.0\mcm\mcmprj#-list %L -html %R+ %P+#Iexplore"
+</PRE>
+
+<P><I>argument</I> = <I>project_wide_analysis_executable_path</I> [ <I># parameters</I> [ <I># rendering_program</I> ] ]
+
+<P><I>rendering_program</I> may be omitted, in which case the browser specified 
+by the environment variable PRQA_DEFAULT_BROWSER is used.
+
+<P><I>argument</I> should be enclosed in quotes if there are any
+spaces in any of its 3 components.
+
+<P>Quotes should not be embedded in the -glob <I>parameters</I>.  Should paths
+exist in the <I>parameters</I> section with embedded spaces, escape each embedded 
+space with \ (backslash).
+
+<PRE>
+      -glob  "C:\Program Files\prqa\QAC-5.0\mcm\mcmprj#%L+ some\ thing#netscape"
+</PRE>
+
+<P># acts as the delimiter of the 3 components.  Null parameters are
+specified by simply omitting the text of the parameter.
+
+<P><I>project_wide_analysis_executable_path</I> is mandatory and should be absolute.
+
+<P><I>parameters</I> specifies the parameters to the program as a string with
+placeholders that are replaced as follows.
+
+<UL>
+<TABLE WIDTH="100%">
+<TR VALIGN=TOP><TD WIDTH="8%">%D</TD><TD> - </TD><TD>insert default source path of root folder selected</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%J</TD><TD> - </TD><TD>insert project name</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%L</TD><TD> - </TD><TD>insert name of file listing all files for this global analysis</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%O</TD><TD> - </TD><TD>insert output path of root folder selected</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%P</TD><TD> - </TD><TD>include settings.via</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%Q</TD><TD> - </TD><TD>QAC</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%R</TD><TD> - </TD><TD>placeholder for result file which is
+                               named &lt;project wide analysis program name&gt;.html by the GUI</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%T</TD><TD> - </TD><TD>temp dir</TD></TR>
+</TABLE>
+</UL>
+
+<P>"+" can follow %L, %P, %R with following results:
+<P>
+<UL>
+<TABLE WIDTH="100%">
+<TR VALIGN=TOP><TD WIDTH="8%">%L+ </TD><TD>=> -list <I>filelist.lst</I></TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%P+ </TD><TD>=> -via <I>settings.via</I></TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%R+ </TD><TD>=> -file &lt;program&gt;.html</TD></TR>
+</TABLE>
+</UL>
+
+<P>Project wide analysis output is controlled within the parameters specification as follows.
+
+<P>In order for output to be displayed by the <I>rendering_program</I>
+the <I>parameters</I> section must contain a <B>'-file &lt;filename&gt;'</B>
+option.  This may be specified explicitly by embedding <B>'-file
+filename'</B> into the <I>parameters</I> section, or by using the
+<B>%R+</B> option.  Note that QAW will not allow a parameters section
+that expands to more than one <B>'-file'</B> option.  Hence zero or
+one <B>'-file'</B> options should result on expansion.
+
+
+<P>A special case of <I>parameters</I> is where output is to be directed to Standard Output.  In this case the User should include <B>'-file STDOUT'</B> in his <I>parameters</I> section.
+
+Hence <B>-file</B> is used in 3 ways:
+
+<OL>
+<LI>No <B>-file</B> option
+<BR>	This means do not execute the <I>rendering_program</I>.
+</LI>
+<BR>
+<LI><B>-file STDOUT</B>
+<BR>	This means copy result of <I>project_wide_analysis_executable_path</I> to Standard Output.
+</LI>
+<BR>
+<LI><B>-file filename</B>
+<BR>	This means <I>project_wide_analysis_executable_path</I> creates filename and displays using <I>rendering_program</I>.
+</LI>
+</OL>
+
+<P><I>rendering program</I> is the program specification ([path]name) necessary to invoke an html
+browser and is optional.  If omitted QAW will use the browser specified in the Environment Variable PRQA_DEFAULT_BROWSER.
+
+
+<HR>
+<A NAME="-glog option syntax"></A>
+<P><B>-glog</B>
+<P>Syntax:
+<PRE>
+      -glog
+</PRE>
+ 
+<P>Example:
+
+<PRE>
+      -glog
+</PRE>
+
+<P>Invokes QAW output to its a graphic window display a log of analysis activity. TBD.
+
+
+<HR>
+<A NAME="-help option syntax"></A>
+<P><B>-help  -h</B>
+<P>Syntax:
+<PRE>
+      ( -h | -help ) [ &lt;list of options&gt; ]
+</PRE>
+ 
+<P>Example:
+
+<PRE>
+      -help -i -x
+</PRE>
+
+<P>When invoked with no parameters, QAW lists brief help information for each option.
+
+<P>When invoked with parameters, QAW lists brief help information for
+each option that matches the <I>list of options</I>.  Where a match is made
+on any options in the full set of options available (ie QAW options
+and the QAC/PP toolset options), that commence with the characters
+supplied for each option id <I>list of options</I>.
+
+
+<HR>
+<A NAME="-logerrs option syntax"></A>
+<P><B>-logerrs</B>
+<P>Syntax:
+<PRE>
+      -logerrs [STDOUT],[STDERR],[FILE]
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -logerrs STDOUT,FILE
+</PRE>
+
+<P>QAW writes all error output to the specified destination(s).  Default is STDERR.
+
+<P>On specification of '-logerrs FILE', QAW writes all error
+output to the file qaw_err.log.
+
+
+<HR>
+<A NAME="-logmsgs option syntax"></A>
+<P><B>-logmsgs</B>
+<P>Syntax:
+<PRE>
+      -logmsgs [STDOUT],[STDERR],[FILE]
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -logmsgs STDOUT,FILE
+</PRE>
+
+<P>QAW writes all message output to the specified destination(s).  Default is STDOUT.
+
+<P>On specification of '-logmsgs FILE', QAW writes all message output to the file qaw_msg.log.
+    	                     
+
+<HR>
+<A NAME="-maseq option syntax"></A>
+<P><B>-maseq</B>
+<P>Syntax:
+<PRE>
+      -maseq <I>argument</I>
+</PRE>
+ 
+<P>Example:
+
+<PRE>
+      -maseq "mcmprj -list %L -html %R+ %P+#pal %Q %L+ %P+"
+</PRE>
+
+<P>Where <I>argument</I> = <I>program_spec</I> { # <I>program_spec</I> }
+
+<P><I>program_spec</I> = <I>project_wide_analysis_executable_path</I>&nbsp;&nbsp;space&nbsp;&nbsp; <I>parameters</I>
+
+<P><I>argument</I> should be enclosed in quotes if there are any
+spaces within it.
+
+<P>Quotes should not be embedded in any <I>program_spec</I> term.  Should 
+significant spaces exist in any part of <I>program_spec</I>, escape each embedded 
+space with \ (backslash).
+
+<PRE>
+      -maseq  "C:\Prog\ Files\bin\prg %Q %L+ -param some\ thing"
+</PRE>
+
+<P># acts as the delimiter of each program specified in the sequence.
+
+<P><I>project_wide_analysis_executable_path</I> is mandatory and should be absolute 
+unless the program specified is on the system PATH variable.
+
+<P><I>parameters</I> specifies the parameters to the program as a string with
+placeholders that are replaced as follows.
+
+<UL>
+<TABLE WIDTH="100%">
+<TR VALIGN=TOP><TD WIDTH="8%">%D</TD><TD> - </TD><TD>insert default source path of root folder selected</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%J</TD><TD> - </TD><TD>insert project name</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%L</TD><TD> - </TD><TD>insert name of file listing all files for this global analysis</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%O</TD><TD> - </TD><TD>insert output path of root folder selected</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%P</TD><TD> - </TD><TD>include settings.via</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%Q</TD><TD> - </TD><TD>QAC</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%R</TD><TD> - </TD><TD>placeholder for result file which is
+                               named &lt;project wide analysis program name&gt;.html by the GUI</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%T</TD><TD> - </TD><TD>temp dir</TD></TR>
+</TABLE>
+</UL>
+
+<P>"+" can follow %L, %P, %R with following results:
+<P>
+<UL>
+<TABLE WIDTH="100%">
+<TR VALIGN=TOP><TD WIDTH="8%">%L+ </TD><TD>=> -list <I>filelist.lst</I></TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%P+ </TD><TD>=> -via <I>settings.via</I></TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%R+ </TD><TD>=> -file &lt;program&gt;.html</TD></TR>
+</TABLE>
+</UL>
+
+<HR>
+<A NAME="-mode option syntax"></A>
+<P><B>-mode</B>
+<P>Syntax:
+<PRE>
+      -mode ( ALL | DEPEND | DEP | NONE )
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -mode depend
+</PRE>
+
+<P>Where parameter is:
+
+<UL>
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH="20%">ALL</TD><TD>This is the default.  In this mode all files are analysed.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="20%">DEP or DEPEND</TD><TD>Analyse only those files for which
+the current results are or may be out of date.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH="20%">NONE</TD><TD>Skip analysis of files and simply execute display
+options.</TD></TR>
+</TABLE>
+</UL>
+
+<P>-mode controls whether files in the fileset submitted to
+QAC are always analysed, analysed only if necessary, or
+not analysed.  Files submitted with -mode none result in
+QAW performing the specified display options without
+running any analysis.
+
+<HR>
+<A NAME="-pdsp option syntax"></A>
+<P><B>-pdsp</B>
+<P>Syntax:
+<PRE>
+      -pdsp &lt;browser program spec&gt;
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -pdsp iexplore
+</PRE>
+
+<P>Where <I>browser program spec</I> is the full path to the html
+browser to be used to display prjdsp output, or is the name of
+an html browser executable on the OS PATH.
+
+<P>Invokes the PRQA prjdsp component on each fileset and uses the
+supplied browser to display the result.
+
+<P>Automatically invokes -ehtml to ensure that html files exist and
+are up to date for the Warning Listing generated.
+
+<HR>
+<A NAME="-pdspd option syntax"></A>
+<P><B>-pdspd</B>
+<P>Syntax:
+<PRE>
+      -pdspd
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -pdspd
+</PRE>
+
+<P>Invokes the PRQA prjdsp component on each fileset and uses the
+browser specified by PRQA_DEFAULT_BROWSER to display the result.
+
+<P>Automatically invokes -ehtml to ensure that html files exist and
+are up to date for the Warning Listing generated.
+
+<HR>
+<A NAME="-plog option syntax"></A>
+<P><B>-plog</B>
+<P>Syntax:
+<PRE>
+      -plog
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -plog
+</PRE>
+
+<P>QAW displays to its logmsgs device(s) (stdout / stderr /
+qaw_msg.log) a log of analysis activity.
+
+
+<HR>
+<A NAME="-sapf option syntax"></A>
+<P><B>-sapf</B>
+<P>Syntax:
+<PRE>
+      -sapf
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -sapf
+</PRE>
+
+<P>QAW outputs, for each file analysed, a report comprising the
+options used for analysis and display.
+
+
+<HR>
+<A NAME="-saseq option syntax"></A>
+<P><B>-saseq</B>
+<P>Syntax:
+<PRE>
+      -saseq <I>argument</I>
+</PRE>
+ 
+<P>Example:
+
+<PRE>
+      -saseq "C:\Program\ Files\prqa\QAC-5.0-P3\mcm\bin\qacuser_mcm.exe %F"
+</PRE>
+
+<P>Where <I>argument</I> = <I>program_spec</I> { # <I>program_spec</I> }
+
+<P><I>program_spec</I> = <I>Secondary-Analysis_executable_path</I>&nbsp;&nbsp;space&nbsp;&nbsp;<I>parameters</I>
+
+<P><I>argument</I> should be enclosed in quotes if there are any
+spaces within it.
+
+<P>Quotes should not be embedded any <I>program_spec</I> term.  Should 
+significant spaces exist in any part of <I>program_spec</I>, escape each embedded 
+space with \ (backslash).
+
+<PRE>
+      -saseq  "C:\Prog\ Files\bin\prg %F -param some\ thing"
+</PRE>
+
+<P># acts as the delimiter of each program specified in the sequence.
+
+<P><I>Secondary-Analysis_executable_path</I> is mandatory and should be absolute 
+unless the program specified is on the system PATH variable.
+
+<P><I>parameters</I> specifies the parameters to the program as a
+string with placeholders that are replaced as follows.  Note that the
+Unix version of QAC differs from the Windows version.
+
+<UL>
+<P>Windows GUI:
+<BR>%Q - QAC
+<BR>%P - Personality file (settings.via)
+<BR>%N - Naming rule configuration file
+<BR>%F - Name of source file being analysed
+<BR>%S - Location within the command string to insert the script_path component
+</UL>
+
+<P>"+" can follow %P, %N with following results:
+<P>
+<UL>
+<TABLE WIDTH="100%">
+<TR VALIGN=TOP><TD WIDTH="8%">%P+ </TD><TD>=> -via <I>settings.via</I></TD></TR>
+<TR VALIGN=TOP><TD WIDTH="8%">%N+ </TD><TD>=> -nrf &lt;naming rule file&gt;.html</TD></TR>
+</TABLE>
+</UL>
+
+<UL>
+<P>Unix GUI:
+<BR>%Q - QAC
+<BR>%M - met file for source file being analysed
+<BR>%E - err file for source file being analysed
+<BR>%P[ + ] - [ -via ] settings.via
+<BR>%F[ + ] - [ -op &lt;output path&gt;] Name of source file being analysed
+</UL>
+
+
+<HR>
+<A NAME="-sat option syntax"></A>
+<P><B>-sat  -SetArgumentTranslation</B>
+<P>Syntax:
+<PRE>
+      -sat &lt;lhs&gt;=&lt;rhs&gt;
+</PRE>
+<P>Or
+<PRE>
+      -SetArgumentTranslation &lt;lhs&gt;=&lt;rhs&gt;
+</PRE>
+
+<P>Example:
+
+<PRE>
+      qaw qac -sat "MTd=-d _MT -d _DEBUG" -cargs cl /c /MTd  file.c
+</PRE>
+<P>Causes following analysis:
+<PRE>
+      qaw qac -d _MT -d _DEBUG file.c
+</PRE>
+<P>
+and executes:
+<PRE>
+      cl /c /MTd file.c 
+</PRE>
+
+<P>Where <I>lhs</I> represents the characters of an option token to
+be replaced.
+
+<P>N.B. the argument is case sensitive.
+
+<P>N.B. the <I>lhs</I> is specified as the compiler option to be
+matched less its first character.  This character is either '/' or
+'-' or '--'.  Hence, normally there is no '-' or '/' prefix to <I>lhs</I>, however the
+replacing (QAC/PP) options in <I>rhs</I> ARE prefixed with '-'.
+
+<P>That is:
+<PRE>
+      -sat D=-D  -sat D=-d  -sat "D=-DWIN -D"
+</PRE>
+<P>are normal.
+
+<P>If the option to be modelled starts with more than one '-'
+character, for example --DEBUG, then specify -sat as:
+
+<PRE>
+      -sat-DEBUG=...
+</PRE>
+
+<P>This option specifies a replacement set of tokens (ie <I>rhs</I>) that
+are inserted at every instance of <I>-lhs</I> or <I>/lhs</I> in the command line
+tokens following the -cargs or -targs option.
+
+
+<HR>
+<A NAME="-sfba option syntax"></A>
+<P><B>-sfba</B>
+<P>Syntax:
+<PRE>
+      -sfba
+</PRE>
+
+<P>Example:
+
+<PRE>
+      qaw qac mcm.prj -sfba -maseq "pal %Q %P+ %L+"
+</PRE>
+
+<P>Suppresses primary and secondary analysis, allowing only project
+wide (global) analysis of the given fileset.
+
+<HR>
+<A NAME="-stoponfail option syntax"></A>
+<P><B>-stoponfail</B>
+<P>Syntax:
+<PRE>
+      -stoponfail
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -stoponfail
+</PRE>
+
+<P>QAW terminates on primary, secondary, or global analysis failure,
+with QAW returning the return code of the analysis program that
+failed.
+
+
+<HR>
+<A NAME="-targs option syntax"></A>
+<P><B>-targs</B>
+<P>Syntax:
+<PRE>
+      -targs
+</PRE>
+
+<P>Example:
+
+<PRE>
+      qaw qac -via person.p_a -via person.p_c -targs -I\include_path -Ddef=val source.c
+</PRE>
+
+<P>This option (Translation ARGumentS) is provided for Make based PRQA
+analysis where compilation options of a Makefile are to be translated
+into analysis options without compilation, i.e. all files in the
+Makefile shall be analysed only.  In this mode no compilation 
+takes place, should compilation be required the partner option -cargs
+should be used instead. 
+
+<P>QAW performs analysis of files on the right of the -targs marker,
+using QAW options specified on the left of the -targs token and
+options on the right of the -targs token that have -sat translations
+specified.
+
+<P>QAW translates any option tokens in the -targs section and uses
+those options for the (primary and secondary) analysis parameters of
+the files in the -targs section.  The translation of parameter tokens
+in the -targs section is performed as defined by the -sat option(s).
+
+<P>QAW -targs is intended for use as a compiler wrapper when
+running Make files.  Example usage is:
+
+<PRE>
+      make "CC=qaw qac -via person.p_a -via person.p_c -targs"
+</PRE>
+
+<P>This has the effect of replacing all 'make' invoked Makefile CC
+compilation operations.  For example, applying the above CC definition to the
+following:
+
+<PRE>
+      CC -c -I \usr\include a.c b.c c.c
+</PRE>
+
+<P>Results in execution of:
+
+<PRE>
+      qaw qac -via person.p_a -via person.p_c a.c b.c c.c
+</PRE>
+
+<P>-targs acts as a separator between QAW options and the 'make'
+provided parameters.  Tokens to the left of the -targs token are
+passed directly to QAC.  Tokens to the right are passed to QAC if they
+are source files or options for which -sat translations exist.
+
+<P>The key to passing compiler *options* (like -I etc) to QAC, is the
+-sat option.  (-sat is -SetArgumentTranslation.)  -sat options must
+appear before the -targs token on the command line (they really belong
+in the compiler personality).  Each -sat introduces an option
+translating specification that can be thought of as a simple edit
+replace option (s/old/new/).
+
+<P>Note that options (like -I say) after the -targs marker are not applied
+to QAC by default.  If this is desired, specify the -sat definitions
+to perform the translations for the required options.  For example if
+-I can appear to the right of -targs, and this option shall be passed
+to QAC, then specify a -sat translation for that -I.  A -sat
+translation is required even if the translation does not change the
+option.  This is because -sat options do two things:
+
+<OL>
+<LI>They cause all instances of a given option on the right of -targs
+to be passed to QAC.</LI>
+<P>
+<LI>They allow that option to be 'translated' into one or more QAC
+options which can differ textually.</LI>
+</OL>
+
+<P>An example CC definition using -sat is:
+
+<PRE>
+      "CC=qaw qac -via person.p_c -sat I=-i -satst=-ST -targs"
+</PRE>
+
+
+<HR>
+<A NAME="-trace option syntax"></A>
+<P><B>-trace</B>
+<P>Syntax:
+<PRE>
+      -trace
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -trace
+</PRE>
+
+<P>The -trace option causes QAW to create a file named qaw.trace with the following content:
+
+<OL TYPE="i">
+<LI>List of entire set of options passed to QAW.</LI>
+<P>
+<LI>Full text used to invoke each PRQA program.</LI>
+</OL>
+
+
+<HR>
+<A NAME="-version option syntax"></A>
+<P><B>-version  -v  -ver</B>
+<P>Syntax:
+<PRE>
+      -v | -ver | -version
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -version
+</PRE>
+
+<P>QAW displays the QAW program version string, e.g.
+
+<PRE>
+      qaw version 2.0
+</PRE>
+
+
+<HR>
+<A NAME="-view option syntax"></A>
+<P><B>-view</B>
+<P>Syntax:
+<PRE>
+      -view
+</PRE>
+
+<P>Example:
+
+<PRE>
+      -view
+</PRE>
+
+<P>QAW executes the Message Browser with the current fileset.
+
+
+<HR>
+</BODY>
+</HTML>
+

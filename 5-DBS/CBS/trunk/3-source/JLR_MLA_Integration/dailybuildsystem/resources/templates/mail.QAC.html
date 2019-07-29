@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>
+        DailyBuildSystem MISRA-C and Code Metric summary report
+    </title>
+    <style type="text/css">
+	body {
+		font-size:10.0pt;
+		font-family:"맑은 고딕", arial;
+	}
+	
+	.fail {
+		color:red;
+	}
+	
+	.success {
+		color: blue;
+	}
+		
+	.dbs_table {
+		border-collapse: collapse;
+	}
+	.dbs_table th, 
+	.dbs_table td {
+		border: 1px solid #e1edff;
+		padding: 7px 17px;
+	}
+	
+	/* Table Header */
+	.dbs_table thead th {
+		background-color: #508abb;
+		color: #FFFFFF;
+		border-color: #6ea1cc !important;
+	}
+	
+	/* Table Body */
+	.dbs_table tbody td {
+		color: #353535;
+	}
+	.dbs_table tbody td:first-child {
+		text-align: right;
+	}
+	.dbs_table tbody tr:nth-child(odd) td {
+		background-color: #f4fbff;
+	}
+    </style>
+</head>
+<body>
+<H2>
+%if args.__contains__("misra") and args.__contains__("codemetric"):
+	MISRA-C ${args["misra"]["rule"]} violation and Code Metric summary report
+%elif args.__contains__("misra"):
+	MISRA-C ${args["misra"]["rule"]} violation summary report
+%else:
+	Code Metric summary report
+%endif
+</h2>
+<!-- Common Section Start -->
+<table class="dbs_table">
+    <thead>
+		<tr>
+			<th colspan=2>Target Information</th>
+		</tr>
+    </thead>
+    <tbody>
+		<tr>
+			<td>Date</td>
+			<td>${args["date"]}</td>
+		</tr>
+		<tr>
+			<td>Time</td>
+			<td>${args["time"]}</td>
+		</tr>
+		%if args.__contains__("jenkins"):
+		%if args["jenkins"].__contains__("SVN_URL"):
+		<tr>
+			<td>SVN URL</td>
+			<td>${args["jenkins"]["SVN_URL"]}</td>
+		</tr>
+		%endif
+		%if args["jenkins"].__contains__("SVN_REVISION"):
+		<tr>
+			<td>SVN rev.</td>
+			<td>${args["jenkins"]["SVN_REVISION"]}</td>
+		</tr>
+		%endif
+		%endif
+		%if args.__contains__("extras"):
+		<tr>
+			<td>Car Maker</td>
+			<td>${args["extras"][0]}</td>
+		</tr>
+		<tr>
+			<td>Car Name</td>
+			<td>${args["extras"][1]}</td>
+		</tr>
+		<tr>
+			<td>Variant</td>
+			<td>${args["extras"][2]}</td>
+		</tr>
+		%endif
+	</tbody>
+</table>
+<!-- Common Section Finish -->
+
+<!-- Misra-C and Code Metric Section Start -->
+%if args.__contains__("misra"):
+<h3>Top-Most MISRA-C ${args["misra"]["rule"]} violated files</h3>
+<table class="dbs_table">
+	<thead>
+		<tr>
+			<th>Rank</th>
+			<th>File</th>
+			<th>Count</th>
+			<th>Rules</th>
+		</tr>
+	</thead>
+	<tbody>
+		%for violation in args["misra"]["violations"]:
+		<tr>
+			<td>${loop.index + 1}</td>
+			<td>${violation["filename"]}</td>
+			<td>${violation["count"]}</td>
+			<td>
+			%for rule in violation["rules"]:
+				${rule}
+				%if not loop.last:
+				, 
+				%endif
+			%endfor
+			</td>
+		</tr>
+		%endfor
+	</tbody>
+</table>
+%endif
+
+%if args.__contains__("codemetric"):
+<h3>Top-Most Code Metric violated functions</h3>
+<table class="dbs_table">
+	<thead>
+		<tr>
+			<th rowspan=2>Rank</th>
+			<th rowspan=2>File</th>
+			<th rowspan=2>Function</th>
+			<th colspan=${len(args["codemetric"]["rules"])}>Count</th>
+		</tr>
+		<tr>
+			%for rule in args["codemetric"]["rules"]:
+			<th>${rule}</th>
+			%endfor
+		</tr>
+	</thead>
+	<tbody>
+		%for violation in args["codemetric"]["violations"]:
+		<tr>
+			<td>${loop.index + 1}</td>
+			<td>${violation["filename"]}</td>
+			<td>${violation["function"]}</td>
+			%for value in violation["values"]:
+			<td>${value}</td>
+			%endfor
+		</tr>
+		%endfor
+	</tbody>
+</table>
+%endif
+<!-- Misra-C and Code Metric Section Finish -->
+</body>
+</html>

@@ -1,0 +1,319 @@
+-----------------------------------------------------------------------------
+
+30-Jan-12                         - Q:\Products\QAW\QAW-2.3.2 Created.
+
+30-01-12   GEN_STRING  1.3  -> 1.4   - SPLIT_STRING_ALLOWING_SPECIFIC_QUOTED_TERMS
+                                       updated for embedded \ space.
+
+26-01-12   MODE        1.7  -> 1.8   - CR-14544: Write cwd to .opt file header.
+
+04-01-12   PARSE_CL    1.29 -> 1.30  - Reverted to GEN::SPLIT_STRING_ALLOWING_QUOTED_TERMS()
+                                       in LOAD_OPTION_FILE()
+
+26-01-12   QPARSE      1.18 -> 1.19  - CR-14397: ProjectDataflowFile handling added.
+22-11-11   QPARSE      1.17 -> 1.18  - RESOLVE_PATHS_WITH_ENCODED_SPACES(), and
+                                       RESOLVE_PARAMETER_WITH_ENCODED_SPACES() reinstated to use
+                                       GEN::SPLIT_STRING_ALLOWING_QUOTED_TERMS
+
+26-01-12   RUN         1.31 -> 1.32  - CR-14397 Incorporate Dataflow in .prj file.
+
+-----------------------------------------------------------------------------
+
+26-Aug-11                         - Q:\Products\QAW\QAW-2.3.1 Created.
+
+23-08-11   RUN         1.30 -> 1.31  - CR14138 Global analysis problem resolved.
+06-05-11   GEN_FILE    1.4  -> 1.5   - COPY_DIRECTORY_RECURSIVE added.
+06-05-11   GEN_PATH    1.10 -> 1.11  - WHICH handling of ./ improved.
+
+-----------------------------------------------------------------------------
+
+01-Apr-11                         - Q:\Products\QAW\QAW-2.3 Created.
+
+01-04-11   GEN         1.19 -> 1.21   - SPLIT_COMMAND_LINE_STRING added.
+                                      - SPLIT_COMMAND_LINE_STRING_WINDOWS added.
+
+21-03-11   GEN_PATH    1.9  -> 1.10   - WHICH handling of relative path arg improved.
+31-01-11   GEN_PATH    1.8  -> 1.9    - GET_GLOB_FILE_LIST_CW added.
+                                      - IS_FILE_PATH_ABSOLUTE improved.
+12-01-11   GEN_PATH    1.7  -> 1.8    - CR13793 Handle bad relative path in
+                                        EVALUATE_RELATIVE_PATHS.
+
+21-Mar-11  GEN_STRING  1.2  -> 1.3    - SPLIT_COMMAND_LINE_STRING added.
+
+21-03-11   MODE        1.6  -> 1.7    - REFORMAT_PARAM updated to use SPLIT_COMMAND_LINE_STRING.
+                                      - QAC DF nogen effect on -o and -n incorporated.
+
+21-Mar-01  PARAM       1.14 -> 1.15   - VERSION_IS_LATER_THAN_QAC6_2() added.
+                                      - LOOKUP_CUSTOM_REPORT_DETAILS() and
+                                      - LOOKUP_PROJECT_ANALYSIS_DETAILS() updated to use
+                                      - SPLIT_COMMAND_LINE_STRING().
+
+21-03-11   PARSE_CL    1.28 -> 1.29   - cargs handled as a +cargs option.
+                                      - HANDLE_ARG_IN_CTARGS_SECTION(),
+                                        LOAD_OPTION_FILE() and
+                                        GET_ALL_OPTIONS_IN()
+                                        updated to use SPLIT_COMMAND_LINE_STRING().
+                                      - OPTION_HAS_PATH_PARAMETER updated to use ! marker.
+                                      - -rem handling removed.
+                                      - --inline etc handled in -cargs section.
+
+21-03-11   QPARSE      1.16 -> 1.17   - PARSE_SASEQ_OPT(), PARSE_MASEQ_OPT(), PARSE_GLOB_PARAMS(),
+                                        EXTRACT_FILTER(),
+                                        RESOLVE_PATHS_WITH_ENCODED_SPACES(), and
+                                        RESOLVE_PARAMETER_WITH_ENCODED_SPACES() updated to use
+                                        SPLIT_COMMAND_LINE_STRING().
+                                      - CR-13644 Handling for %N added.
+                                      - Restructured handling of -rems,
+                                      - PARSE_REM_STATEMENTS() removed.
+
+21-03-11  RUN          1.29 -> 1.30   - EXECUTE_PRIMARY_ANALYSIS updated to only run errdsp check
+                                        if old version of QAC.
+                                      - DO_ENSURE_TXT and DO_ENSURE_HTML updated not to write
+                                        .txt or .html file if it exists and outdates the .err file.
+                                      - PARSE_PARAMETERS parameter handling restructured.
+                                      - %O, %D, %J handling added/updated.
+
+-----------------------------------------------------------------------------
+
+25-Aug-10                         - Q:\Products\QAW\QAW-2.2.1 Created.
+
+25-08-10   GEN_STRING  CR12797. Quote arguments containing single quotes
+
+           GEN_FILE - Evaluate relative paths when comparing file paths.
+
+           RUN      - Reduce use of errdsp
+
+-----------------------------------------------------------------------------
+
+24-Apr-09                         - Q:\Products\QAW\QAW-2.2 Created.
+
+23-04-09   GEN_PATH   1.6 -> 1.7    - IS_FILE_PATH_ABSOLUTE improved for Windows with Cygwin
+                                      path case.
+
+23-04-09   PARAM     1.13 -> 1.14   - CR12977 Windows cannot execute: `"<path>" "<path" -ver`.
+
+22-04-09   RUN       1.27 -> 1.28   - CR12636. Improve speed of -mode depend checking.
+
+22-04-09   PARSE_CL  1.26 -> 1.27   - CR13174 Edits applied to prevent addition of trailing \ for 
+                                      -fi and -q.
+
+22-04-09   MODE       1.5 -> 1.6    - CR12636. Improve speed of -mode depend checking.
+
+16-03-09   GEN_TIME   1.1 -> 1.2    - FORMAT_TIME formatting added.
+
+-----------------------------------------------------------------------------
+
+22-Sep-08                         - Q:\Products\QAW\QAW-2.1.2 Created.
+
+19-09-08   RUN       1.26 -> 1.27 - CR12970. -pdsp handling corrected.
+
+-----------------------------------------------------------------------------
+
+25-Jul-08                         - Q:\Products\QAW\QAW-2.1.1 Created.
+
+24-07-08   RUN       1.25 -> 1.26 - CR12893. Project wide processing inhibited if analysis errors.
+
+23-07-08   GEN       1.18 -> 1.19 - APPEND_FILE improved.
+
+09-05-08   GEN_SYS    1.9 -> 1.10 - Fixed $args typo in DIE in EXECUTE_ARGS_WITH_RESULT.
+
+-----------------------------------------------------------------------------
+
+16-Apr-08                         - Q:\Products\QAW\QAW-2.1 Created.
+
+17-04-08   QPARSE    1.15 -> 1.16 - EXECUTE_FOR_PROG_VERSION parameters updated.
+
+17-04-08   MODE       1.4 -> 1.5  - EXECUTE_FOR_PROG_VERSION parameters updated.
+
+17-Apr-08  PARAM     1.12 -> 1.13 - EXECUTE_FOR_PROG_VERSION improved for progs with spaces.
+
+17-04-08   GEN_SYS    1.8 -> 1.9  - EXECUTE_PROGRAM_WITH_RESULT improved.
+
+11-04-08   GEN_PATH   1.5 -> 1.6  - IS_FILE_PATH_ABSOLUTE explicitly handles empty path.
+
+10-04-08   GEN_SYS    1.7 -> 1.8  - EXECUTE_ARGS_WITH_RESULT modified to improve
+                                    handling of case where program and args have
+                                    spaces.
+
+07-02-08   RUN       1.24 -> 1.25 - CR12691. Enable RP/EV handling.
+
+07-02-08   QPARSE    1.14 -> 1.15 - CR12691. Enable RP/EV handling.
+
+07-02-08   PARSE_CL  1.25 -> 1.26 - CR12691. Enable RP/EV handling.
+
+07-02-08   GEN_PATH   1.4 -> 1.5  - CR12691 - GET_GLOB_FILE_LIST improved for simple files.
+
+10-07-07   QPARSE    1.13 -> 1.14 - CR12409: Handle case of cmd.exe needing /c when finding version.
+
+20-06-07   GEN_STRING 1.1 -> 1.2  - QUOTE_ARG now enquotes if arg contains \
+
+20-06-07   GEN_FILE   1.3 -> 1.4  - TRUNCATE_FILE now handles dir not exists.
+
+-----------------------------------------------------------------------------
+
+02-Nov-07                         - Q:\Products\QAW\QAW-2.0.7 Created.
+
+01-11-07   RUN       1.23 -> 1.24 - CR12558: Removed reading of qac[pp].cfg when 
+                                    calling components.
+
+01-11-07   qaw.pl 2.0.5.3 -> 2.0.7- CR12558: Removed reading of qac[pp].cfg when
+                                    calling components.
+
+-----------------------------------------------------------------------------
+
+15-Mar-07                         - Q:\Products\QAW\QAW-2.0.5.3 Created.
+
+15-03-07   PARSE_CL 1.24 -> 1.25  - CR12135. Edit 1.23 reverted and change made to qaw.pl instead.
+
+08-03-07   PARSE_CL 1.23 -> 1.24  - Default afe arg string extended to include CPP etc.
+
+15-03-07   qaw.pl 2.0.5.2->2.0.5.3- Bugfixed for faulty multiple re-escaping of quotes.
+
+-----------------------------------------------------------------------------
+
+27-Feb-07                         - Q:\Products\QAW\QAW-2.0.5.2 Created.
+
+26-02-07   PARSE_CL 1.22 -> 1.23  - Quotes supplied (as command line arg) are now (re-)escaped.
+
+21-02-07   RUN      1.22 -> 1.23  - Corrected problem deriving cmaf path when there are no op's.
+
+20-02-07   QPARSE   1.12 -> 1.13  - Handling of -maseq,-saseq,-exec,-glob  which use '\\ '
+                                    modified to allow '\"' quote escaping. -rem also.
+                                  - QAC[PP] workaound for stringify quotes in -d param, added.
+
+20-02-07   GEN_TIME  1.0 ->  1.1  - Milli sec ability added to TIME().
+
+05-02-07   PARAM    1.11 -> 1.12  - CFG_FILENAME now works for QAC & QACPP always.
+
+-----------------------------------------------------------------------------
+
+25-Oct-06                         - Q:\Products\QAW\QAW-2.0.5.1 Created.
+
+24-10-06   RUN      1.21 -> 1.22  - CR11553. Corrected handling of no analysis files and -cargs.
+                                  - CR11592,CR11593. System i/f to progs via 'array' where poss.
+                                  - %F+ now expands to -outputpath instead of -op.
+                                  - Handling of -forget corrected.
+
+24-10-06   QPARSE   1.11 -> 1.12  - Expansion of %P deferred to RUN.pm.
+                                  - -forget handling corrected.
+
+24-10-06   PARSE_CL 1.21 -> 1.22  - Arg parsing of -sat option changed to allow --Debug etc.
+                                  - CR11553. Only warn on unreconised file if
+                                    $ctarg_encountered (from first pass) is false;
+                                  - Downgrade messages from Error to Warning.
+
+24-10-06   HELP     1.0  -> 1.1   - Updated list of QAW options help.
+
+24-10-06   GEN_SYS  1.6  -> 1.7   - Fixed call to system() in EXECUTE_PROGRAM_WITH_RESULT
+                                    and EXECUTE_PROGRAM.
+                                  - CR11593. EXECUTE_ARGS & EXECUTE_ARGS_WITH_RESULT added.
+
+24-10-06   GEN_PATH 1.3  -> 1.4   - PWD() fixed. 
+
+24-10-06   GEN      1.17 -> 1.18  - CR11593. EXECUTE_ARGS & EXECUTE_ARGS_WITH_RESULT added.
+
+-----------------------------------------------------------------------------
+
+10-Apr-06                         - Q:\Products\QAW\QAW-2.0.5 Created.
+
+07-Apr-06  RUN      1.20 -> 1.21  - -etxt and -ehtml now always run (ie ignore possible
+                                     execution savings due to timestamp dependencies.
+
+28-Mar-06  PARSE_CL 1.10 -> 1.21  - Changed to increase allowable filename character set.
+
+14-Mar-06  PARAM    1.10 -> 1.11  - Corrected derivation of qacpp.ini in GET_CONFIG_SECTION.
+
+03-Mar-06  GEN_SYS  1.5  -> 1.6   - system() used directly in EXECUTE_PROGRAM_.. subs
+
+09-Feb-06  MODE     1.3  -> 1.4   - Incorrect handling of parameter paths with spaces
+                                    in options like -maseq, -saseq, -exec, -glob - corrected.
+
+09-Feb-06  QPARSE   1.10 -> 1.11  - Incorrect handling of parameter paths with spaces 
+                                    in options like -maseq, -saseq, -exec, -glob - corrected.
+                                    Now can allow relative path in -file arg.
+                                  - Corrected test for bad " in -saseq/maseq arg.
+
+09-Feb-06  RUN      1.19 -> 1.20  - Incorrect handling of parameter paths with spaces
+                                    in options like -maseq, -saseq, -exec, -glob - corrected.
+                                    Now can allow relative path in -file arg.
+
+05-Dec-05  QPARSE   1.9  -> 1.10  - PARSE_UNIX_PROJECT_FILE rewritten to correct
+                                    handling of inherited personalities and to
+                                    remove restriction of not allowing  'Default String'
+                                    in Unix project files.
+
+05-Dec-05  GEN      1.16 -> 1.17  - TRUNCATE_FILE added.
+                                    UNIX_2_DOS added.
+
+05-Dec-05  GEN_FILE 1.2  -> 1.3   - TRUNCATE_FILE added.
+                                    UNIX_2_DOS added.
+
+05-Dec-05  RUN      1.18 -> 1.19  - -op placed after -via persons for project file impl.
+
+15-Nov-05  RUN      1.17 -> 1.18  - -cmaf <path> now included in QAC[PP] settings.via
+                                    and settings.via used by errdsp, prjdsp, viewer, etc.
+
+-----------------------------------------------------------------------------
+
+25-Oct-05                         - Q:\Products\QAW\QAW-2.0.4 Created.
+
+25-Oct-05  qaw.options            - -afe, -dafe, -prj, -projectfile, -sfba, 
+                                    -userealthrowntypes, -urtt added.
+
+25-Oct-05  qaw.options.properties - -afe, -dafe, -prj, -projectfile, -sfba, 
+                                    -userealthrowntypes, -urtt added.
+
+19-Oct-05  RUN      1.16 -> 1.17  - -sfba option included to suppress file based analysis.
+
+19-Oct-05  QPARSE   1.8  -> 1.9   - -afe, -dafe, -sfba added.
+
+18-Oct-05  PARSE_CL 1.19 -> 1.20  - -afe and -dafe added.
+
+10-Oct-05  RUN      1.16 -> 1.17  - -cmaf files NOT deleted when -mode none.
+
+24-Sep-05  PARAM    1.9  -> 1.10  - Analysis prog run from qa_bin and not PATH.
+
+22-Sep-05  RUN      1.15 -> 1.16  - Ensured QA_BIN version of errdsp, prjdsp and viewer 
+                                    called.
+
+19-Sep-05  PARSE_CL 1.18 -> 1.19  - SEARCH_OPTION_SET_FOR_LAST_INSTANCE corrected.
+
+24-Aug-05  PARSE_CL 1.17 -> 1.18  - Module variable notation tidied.
+
+-----------------------------------------------------------------------------
+
+23-Aug-05                         - Q:\Products\QAW\QAW-2.0.3 Created.
+
+23-Aug-05  PARAM    1.8  -> 1.9   - Suppression of FlexLm interactive pop-ups added.
+
+23-Aug-05  RUN      1.14 -> 1.15  - Modified to terminate on licencing error.
+
+-----------------------------------------------------------------------------
+
+14-Jul-05                         - Q:\Products\QAW\QAW-2.0.2 Created.
+
+11-Ju1-05  RUN      1.13 -> 1.14  - -saseq and -maseq + file filter added.
+                                  - Problem that .html concatenates corrected.
+
+11-07-05   MODE     1.2  -> 1.3   - File filter added.
+
+08-07-05   QPARSE   1.7  -> 1.8   - -saseq and -maseq added.
+
+05-07-05   RUN      1.12 -> 1.13  - Count of proceesed files made per QAW run.
+
+-----------------------------------------------------------------------------
+
+15-Jun-05                         - Q:\Products\QAW\QAW-2.0.1 Created.
+
+15-Jun-05  qaw.pl                 - @INC derivation improved and now no longer requires
+                                    configuration.  Require that all .pm files are in same
+                                    directory as qaw.pl.        
+
+14-Jun-05  qaw.options.properties - -format made a DISPLAY option.
+
+06-Jun-05  PARSE_CL 1.16 -> 1.17  - File types: .i .I .ipp .ixx .i++ added.
+                                    Output filenames in mixed sort order.
+
+03-Jun-05  RUN      1.11 -> 1.12  - Count of files processed output.
+
+-----------------------------------------------------------------------------
